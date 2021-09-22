@@ -1,10 +1,6 @@
-# Getting Started with Create React App
+# My First React-APP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+My first expierence with React!
 
 ### `npm start`
 
