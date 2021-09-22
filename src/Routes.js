@@ -6,7 +6,7 @@ const Routes = () => {
   return (
   <Router>    
     <Switch>
-        <Route exact path="/home" component={App} />
+        <Route exact path={["/", "/home"]} component={App} />
         <Route path="/flashcards" component={FlashCard}/>
     </Switch>
     </Router>

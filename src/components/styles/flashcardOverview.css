@@ -63,17 +63,30 @@ div.text-content > textarea{
     
     color: rgba(0,0,0,0.8);
     text-indent: 5%;
-    transition: all 0.2s ease;
+    transition: text-indent 0.2s ease;
     
-    padding: 45px 0;
+    padding: 25px 25px;
     
     font-size: 1.2rem;
     
     text-align: center;
+    opacity: 1;
+    
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
 }
 
 div.text-content > textarea:focus{
     text-indent: 0;
+}
+
+textarea::-webkit-input-placeholder {
+    opacity: 0.45;
+}
+
+textarea:focus::-webkit-input-placeholder {
+    opacity: 0;
 }
 
 .move-box:hover{

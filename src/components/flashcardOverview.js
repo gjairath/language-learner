@@ -27,25 +27,22 @@ const Overview = (props) => {
 
     // God this shit was so hard to pull off 
     // TODO FIX EDGE CASES.
-        // Allow for cards to re-render on screen, save and reinstantiate last state on re-load.
 
-    // destructure it first
     const {currentCards} = props;
     const [loadedCards, setLoadedCards] = useState([]);
-    // One big state for question/answer flashcards.
-       // The rest are added on its own beacuse im lazy 
     const [query, setQuery] = useState(all_cards);
 
     var all_cards = JSON.parse(localStorage.getItem('flashcards'));
-
-    if (all_cards == null) {
-        all_cards = [["", ""]];
-        for (let i = 1; i < loadedCards.length; i++) {
-            all_cards.push(["",""]);        
+    useEffect(() => {
+    
+        if (all_cards == null) {
+            all_cards = [["", ""]];
+            for (let i = 1; i < loadedCards.length; i++) {
+                all_cards.push(["",""]);        
+            }
         }
-    }
-
-
+        }, [all_cards]);
+    
     useEffect(() => {
         // Save it but only if the length is more than 1.
             // This is safe because the default state has 3 cards.
@@ -98,7 +95,6 @@ const Overview = (props) => {
             newOuter[id] = [newOuter[id][0], event.target.value];
         }
         
-        console.log("saved");
         localStorage.setItem('flashcards', JSON.stringify(newOuter));
         setQuery(newOuter);
     }
@@ -113,7 +109,13 @@ const Overview = (props) => {
     // THANKS ASYNC SET states 6 hours to debug this garbage.
     
     const handleMoreCards = () => {
-        setLoadedCards( [...loadedCards, parseInt(loadedCards.length)] );   
+        setLoadedCards( [...loadedCards, parseInt(loadedCards.length)] );
+        
+        all_cards[loadedCards.length] = ["", ""];
+        setQuery(all_cards);
+        const newOuter = Object.assign({}, all_cards);
+        localStorage.setItem('flashcards', JSON.stringify(newOuter));
+
     }
     
     const handleDelete = (event) => {
@@ -144,11 +146,10 @@ const Overview = (props) => {
   <div className="list-content-wrapper">
     <ul>
         {loadedCards.map((item, idx) => {
-        
             // This should be called after user stops typing, otherwise it will be slow af.
             return <li className="list-items">
                         <div className="text-content"> 
-                            <textarea data-id={idx} data-type='question' onClick={toggleBox} onChange={handleChange} placeholder={idx} value={all_cards[idx][0]}> </textarea> 
+                            <textarea data-id={idx} data-type='question' onClick={toggleBox} onChange={handleChange} placeholder={idx + 1} value={all_cards[idx][0]}> </textarea> 
                         </div>
                         <div className="text-content move-box">
                             <textarea data-id={idx} data-type='answer' onClick={toggleBox} onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
@@ -168,7 +169,6 @@ const Overview = (props) => {
   </div>
   );
 };
-
 
 const ContainerBelow = styled.div`
     width: 100%;
