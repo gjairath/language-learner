@@ -13,11 +13,11 @@ const NavBar = () => {
               </Nav.Item>
               <Border> </Border>
               <Nav.Item as="li">
-                <Nav.Link eventKey="link-1">About</Nav.Link>
+                <Nav.Link href="/about" eventKey="link-1">About</Nav.Link>
               </Nav.Item>
              <Border> </Border>
               <Nav.Item as="li">
-                <Nav.Link eventKey="link-2">FAQ</Nav.Link>
+                <Nav.Link href="/faq" eventKey="link-2">FAQ</Nav.Link>
               </Nav.Item>
             </Nav>
         </NavBarWrapper>

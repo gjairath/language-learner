@@ -3,17 +3,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import Routes from "./Routes";
 
 import './styles/index.css';
 import './styles/navbar.css'; 
-import './styles/overview.css'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Routes />
   </React.StrictMode>,
   document.getElementById("root")
 );

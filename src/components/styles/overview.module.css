@@ -1,4 +1,4 @@
-.list-content-wrapper{ /* the ul class */
+.listcontentwrapper{ /* the ul class */
     list-style-type: none;
     width: 100%;
     text-align: center;
@@ -7,7 +7,7 @@
     height: 100%;
 }
 
-.list-items{ /* the li items */
+.list_items{ /* the li items */
     border-bottom: 0.093rem solid rgba(0,0,0,0.2);
     
     display: flex;
@@ -15,7 +15,7 @@
 }
 
 
-.text-content{  /* the stuff on the left titel, desc, link */
+.text_content{  /* the stuff on the left titel, desc, link */
     height: 100%;
     width: 50%;
     
@@ -28,7 +28,7 @@
     padding-top: 25px;
 }
 
-.picture-content{
+.picture_content{
     height: 100%;
     width: 50%;
     
@@ -37,7 +37,7 @@
     justify-content: center;
 }
 
-.img-content{
+.img_content{
     max-height: 80%;
     max-width: 150px; /* heh */
 
@@ -47,7 +47,7 @@
     background-color: transparent;
 }
 
-.link-inside{
+.link_inside{
     color: palevioletred;
     cursor: pointer;
     text-decoration: none;

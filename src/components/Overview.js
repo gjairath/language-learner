@@ -1,9 +1,16 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 import styled from 'styled-components'
+import styles from './styles/overview.module.css'; 
 
-const ContentContainer = (props) => {
+const OverviewContainer = (props) => {
 
     const {basePageItems} = props;
 
@@ -27,11 +34,17 @@ const Overview = (props) => {
 
 
   return (
-    <ul className="list-content-wrapper">
+    <ul className={styles.listcontentwrapper}>
         {basePageItems.map((item) => {
-            return <li className="list-items">
-                        <div className="text-content"> <h1> {item[0]} </h1> <p> {item[1]} </p> <a className="link-inside"> Look Inside </a> </div>
-                        <div className="picture-content"> <img className="img-content" src={"/images/" + item[2]} /> </div>
+            return <li className={styles.list_items}>
+                        <div className={styles.text_content}> 
+                            <h1> {item[0]} </h1> 
+                            <p> {item[1]} </p> 
+                            <a className={styles.link_inside} href={item[3]}> Look Inside </a> 
+                        </div>
+                        <div className={styles.picture_content}> 
+                            <img className={styles.img_content} src={"/images/" + item[2]} /> 
+                        </div>
                     </li>;
                           })}
     </ul>
@@ -59,4 +72,4 @@ const WrapperBelow = styled.div`
     flex-direction: column;    
 `
 
-export default ContentContainer
+export default OverviewContainer
