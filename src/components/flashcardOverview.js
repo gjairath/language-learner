@@ -33,21 +33,16 @@ const Overview = (props) => {
     const [query, setQuery] = useState(all_cards);
 
     var all_cards = JSON.parse(localStorage.getItem('flashcards'));
-    useEffect(() => {
-    
-        if (all_cards == null) {
-            all_cards = [["", ""]];
-            for (let i = 1; i < loadedCards.length; i++) {
-                all_cards.push(["",""]);        
-            }
+    if (all_cards == null) {
+        all_cards = [["", ""]];
+        for (let i = 1; i < loadedCards.length; i++) {
+            all_cards.push(["",""]);        
         }
-        }, [all_cards]);
+    }
     
     useEffect(() => {
         // Save it but only if the length is more than 1.
-            // This is safe because the default state has 3 cards.
-            // If the default state is changed to 1 card, its still safe.            
-            // This is to skip componentWillUnmount            
+            // This is safe because the default state has 3 cards.          
             
         // all_cards is shrodingers data structure, it exists in 2 different states.
                 // if there is user input or not
@@ -98,16 +93,8 @@ const Overview = (props) => {
         localStorage.setItem('flashcards', JSON.stringify(newOuter));
         setQuery(newOuter);
     }
-    
-    const toggleBox = (e) => {
         
-        console.log(e.target.dataset.type);
-    
-    }
-    
-    
-    // THANKS ASYNC SET states 6 hours to debug this garbage.
-    
+    // THANKS ASYNC SET states 6 hours to debug this garbage.    
     const handleMoreCards = () => {
         setLoadedCards( [...loadedCards, parseInt(loadedCards.length)] );
         
@@ -115,44 +102,56 @@ const Overview = (props) => {
         setQuery(all_cards);
         const newOuter = Object.assign({}, all_cards);
         localStorage.setItem('flashcards', JSON.stringify(newOuter));
-
     }
     
+    const isEmptyObject = (obj) => {
+        // a faster way of checking isEmpty
+        for (var i in obj) {
+            return false;
+        }
+        return true;
+    }
+        
     const handleDelete = (event) => {
         const id = event.target.dataset.id;
-        console.log(id);
-        
-        // change the flashcards, they might be array/object depending upon user-input.
-        // change the total # of cards with LoadedCards since it changes based on more-cards.
-        
 
-        if (typeof all_cards === 'object') {
-            delete all_cards[id];
-            console.log(all_cards);
-        } else {
-            
-        }
         
         loadedCards.pop();
-        console.log(loadedCards);
         if(loadedCards.length > 0 ) {
             setLoadedCards([...loadedCards]);
-        } else {
-            setLoadedCards([0,1,2,3]);
         }
+        
+        delete all_cards[id];
+        const newOuter = {};
+        let new_idx = 0;
+        for (const old_idx in all_cards) {
+            if (new_idx == loadedCards.length) {
+                break;
+            }
+            newOuter[new_idx] = all_cards[old_idx];
+            new_idx += 1;
+        }
+        if (isEmptyObject(newOuter) && loadedCards.length === 0) {
+             setLoadedCards([0,1,2,3]);
+             for (let i = 0; i < 4; i++) {
+                 newOuter[i] = ["", ""];
+             }       
+        }
+        localStorage.setItem('flashcards', JSON.stringify(newOuter));
     }
 
   return (
   <div className="list-content-wrapper">
     <ul>
         {loadedCards.map((item, idx) => {
+            {console.log(all_cards);}
             // This should be called after user stops typing, otherwise it will be slow af.
             return <li className="list-items">
                         <div className="text-content"> 
-                            <textarea data-id={idx} data-type='question' onClick={toggleBox} onChange={handleChange} placeholder={idx + 1} value={all_cards[idx][0]}> </textarea> 
+                            <textarea data-id={idx} data-type='question' onChange={handleChange} placeholder={idx + 1} value={all_cards[idx][0]}> </textarea> 
                         </div>
                         <div className="text-content move-box">
-                            <textarea data-id={idx} data-type='answer' onClick={toggleBox} onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
+                            <textarea data-id={idx} data-type='answer' onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
                         </div>
                         <a className="button" data-id={idx} onClick={handleDelete}> x </a>
                     </li>;
