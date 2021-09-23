@@ -89,6 +89,6 @@ textarea:focus::-webkit-input-placeholder {
     opacity: 0;
 }
 
-.move-box:hover{
+.move-box{
     width: 0;
 }

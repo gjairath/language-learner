@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Nav } from 'react-bootstrap'
 
@@ -25,9 +25,8 @@ const ContentContainer = (props) => {
 
 const Overview = (props) => {
 
-    // God this shit was so hard to pull off 
+    // God this shit was so hard to pull off.
     // TODO FIX EDGE CASES.
-
     const {currentCards} = props;
     const [loadedCards, setLoadedCards] = useState([]);
     const [query, setQuery] = useState(all_cards);
@@ -38,6 +37,16 @@ const Overview = (props) => {
         for (let i = 1; i < loadedCards.length; i++) {
             all_cards.push(["",""]);        
         }
+    }
+    
+    const reinit = () => {
+        alert("Are you sure?");
+        setLoadedCards([0,1,2,3]);
+        const newOuter = {}
+        for (let i = 0; i < 4; i++) {
+            newOuter[i] = ["", ""];
+        }    
+        localStorage.setItem('flashcards', JSON.stringify(newOuter));
     }
     
     useEffect(() => {
@@ -140,17 +149,46 @@ const Overview = (props) => {
         localStorage.setItem('flashcards', JSON.stringify(newOuter));
     }
 
+    
+    // https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
+    const itemsRef = useRef([]);
+    useEffect(() => {
+       itemsRef.current = itemsRef.current.slice(0, loadedCards.length);
+    }, [loadedCards]);
+
+    const addAnimationBox = (e) => {
+        const type = e.target.dataset.type;
+        const id = e.target.dataset.id;
+        
+        if (type == undefined || id == undefined) {
+            return;
+        }
+        
+        itemsRef.current[id].classList.add('move-box');
+    }
+        
+    const removeAnimationBox = (e) => {
+        const type = e.target.dataset.type;
+        const id = e.target.dataset.id;
+        
+        if (type == undefined || id == undefined) {
+        // sometimes when u dont click the text-area this shit happens.
+            return;
+        }
+        
+        itemsRef.current[id].classList.remove('move-box');
+    }
+    
   return (
   <div className="list-content-wrapper">
     <ul>
         {loadedCards.map((item, idx) => {
-            {console.log(all_cards);}
             // This should be called after user stops typing, otherwise it will be slow af.
             return <li className="list-items">
-                        <div className="text-content"> 
+                        <div className="text-content" onClick={addAnimationBox} onBlur={removeAnimationBox}> 
                             <textarea data-id={idx} data-type='question' onChange={handleChange} placeholder={idx + 1} value={all_cards[idx][0]}> </textarea> 
                         </div>
-                        <div className="text-content move-box">
+                        <div className="text-content" ref={el => itemsRef.current[idx] = el} >
                             <textarea data-id={idx} data-type='answer' onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
                         </div>
                         <a className="button" data-id={idx} onClick={handleDelete}> x </a>
@@ -162,6 +200,7 @@ const Overview = (props) => {
             <a onClick={handleMoreCards} class="button">More</a>
             <a href="#" class="button">Quiz</a>
             <a href="#" class="button">Pdf</a>
+            <a href="#" style={{alignSelf: "flex-start"}} onClick={reinit} class="button">Reset</a>
         </ToolBarWrapper>
     </ToolBar>
 
