@@ -63,7 +63,7 @@ div.text-content > textarea{
     
     color: rgba(0,0,0,0.8);
     text-indent: 5%;
-    transition: text-indent 0.2s ease;
+    transition: text-indent 0.2s ease-in-out;
     
     padding: 25px 25px;
     
@@ -90,5 +90,5 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .move-box{
-    width: 0;
+    width: 45%;
 }

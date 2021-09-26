@@ -40,7 +40,6 @@ const Overview = (props) => {
     }
     
     const reinit = () => {
-        alert("Are you sure?");
         setLoadedCards([0,1,2,3]);
         const newOuter = {}
         for (let i = 0; i < 4; i++) {
@@ -147,24 +146,33 @@ const Overview = (props) => {
              }       
         }
         localStorage.setItem('flashcards', JSON.stringify(newOuter));
+        localStorage.setItem('currentCards', JSON.stringify(loadedCards));
     }
 
     
     // https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
-    const itemsRef = useRef([]);
+    const questionRefs = useRef([]);
+    const answerRefs = useRef([]);
     useEffect(() => {
-       itemsRef.current = itemsRef.current.slice(0, loadedCards.length);
+       questionRefs.current = questionRefs.current.slice(0, loadedCards.length);
+       answerRefs.current = answerRefs.current.slice(0, loadedCards.length);
     }, [loadedCards]);
 
     const addAnimationBox = (e) => {
         const type = e.target.dataset.type;
         const id = e.target.dataset.id;
         
+        console.log(type);
+        
         if (type == undefined || id == undefined) {
             return;
         }
         
-        itemsRef.current[id].classList.add('move-box');
+        if (type == 'question'){        
+            answerRefs.current[id].classList.add('move-box');
+        } else if (type == 'answer'){
+            questionRefs.current[id].classList.add('move-box');
+        }
     }
         
     const removeAnimationBox = (e) => {
@@ -176,19 +184,24 @@ const Overview = (props) => {
             return;
         }
         
-        itemsRef.current[id].classList.remove('move-box');
+        if (type == 'question'){        
+            answerRefs.current[id].classList.remove('move-box');
+        } else if (type == 'answer') {
+            questionRefs.current[id].classList.remove('move-box');
+        }    
     }
     
   return (
   <div className="list-content-wrapper">
     <ul>
         {loadedCards.map((item, idx) => {
+                
             // This should be called after user stops typing, otherwise it will be slow af.
             return <li className="list-items">
-                        <div className="text-content" onClick={addAnimationBox} onBlur={removeAnimationBox}> 
+                        <div className="text-content" ref={el => questionRefs.current[idx] = el} onClick={addAnimationBox} onBlur={removeAnimationBox}> 
                             <textarea data-id={idx} data-type='question' onChange={handleChange} placeholder={idx + 1} value={all_cards[idx][0]}> </textarea> 
                         </div>
-                        <div className="text-content" ref={el => itemsRef.current[idx] = el} >
+                        <div className="text-content" ref={el => answerRefs.current[idx] = el} onClick={addAnimationBox}  onBlur={removeAnimationBox}>
                             <textarea data-id={idx} data-type='answer' onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
                         </div>
                         <a className="button" data-id={idx} onClick={handleDelete}> x </a>
@@ -196,11 +209,13 @@ const Overview = (props) => {
                           })}
     </ul>
     <ToolBar>
+        <ToolBarWrapper style={{justifyContent: "flex-start"}}>
+            <a href="#" onClick={reinit} style={{marginLeft: "30px"}} class="button">Reset all</a>
+        </ToolBarWrapper>
         <ToolBarWrapper>
             <a onClick={handleMoreCards} class="button">More</a>
-            <a href="#" class="button">Quiz</a>
+            <a href="/quiz" class="button">Quiz</a>
             <a href="#" class="button">Pdf</a>
-            <a href="#" style={{alignSelf: "flex-start"}} onClick={reinit} class="button">Reset</a>
         </ToolBarWrapper>
     </ToolBar>
 
@@ -230,7 +245,7 @@ const ToolBar = styled.div`
     max-width: 960px;
     margin: 10px auto;
     border-radius: 8px;
-    
+    display: flex;
     height: 40px;
 `
 
@@ -240,7 +255,7 @@ const ToolBarWrapper = styled.div`
     gap: 25px;
     
     height: 40px;
-    width 100%;
+    width 50%;
 `
 
 export default ContentContainer
