@@ -9,28 +9,36 @@ import styles from './styles/quizOverview.module.css';
 
 const ContentContainer = (props) => {
 
+    const [active, setActive] = useState(1);
+    
+    const handleTab = (e) => {
+        setActive(parseInt(e.target.dataset.type));
+    }
     
   return (
       <ContainerBelow>
           <OptionsWrapper>
-                <a class={styles.button}>Normal</a>
-                <a class={styles.button}>Multiple-Choice</a>
-                <a href="#" class={styles.button}>Match</a>
+                <a class={styles.button} data-type="0" onClick={handleTab}>Normal</a>
+                <a class={styles.button} data-type="1" onClick={handleTab}>Multiple-Choice</a>
+                <a href="#" class={styles.button} data-type="2" onClick={handleTab}>Match</a>
           </OptionsWrapper>
           
-          <Overview>
-          </Overview>
+            <div className={styles.flash_wrapper}>  
+                  {active == 0 && <Normal />} 
+                  {active == 1 && <Mcq />}
+          </div>
           
       </ContainerBelow>
   )
 }
 
-const Overview = (props) => {
+const Normal = (props) => {
 
 // Handle case where quiz is loaded first.
 
     var all_cards = JSON.parse(localStorage.getItem('flashcards'));    
     var length_questions = Object.keys(all_cards).length;
+
 
     const [idx, setIdx] = useState(0);
 
@@ -46,8 +54,29 @@ const Overview = (props) => {
     }
     
     const handleTranslation = (e) => {
-        const type = e.currentTarget.dataset.type;  
-    
+          
+        var type = null;
+        var allowedKeys = ['ArrowRight', 'ArrowLeft'];
+     
+        // Re-use the same function for keyboard, prevent de-duplication
+     
+         if (e instanceof KeyboardEvent) {
+         
+             if (allowedKeys.includes(e.key) == false) {
+                return;
+             }
+         
+            if (e.key == 'ArrowRight') {
+                type = "r";
+            }
+            
+            if (e.key == 'ArrowLeft') {
+                type = "l";
+            }
+        } else {
+            type = e.currentTarget.dataset.type;
+        }    
+        
         // 0 for left 1 for right, to prevent de-duplication.
         
         if (type == "l") {
@@ -68,12 +97,18 @@ const Overview = (props) => {
         }
     
     }
+    
+    useEffect(() => {
+  document.addEventListener("keydown", handleTranslation);
+  return () => document.removeEventListener("keydown", handleTranslation);
+});
 
+    
   return (
-  <div className={styles.flash_wrapper}>  
-      <div className={styles.flash_content}>
+    <div className={styles.flash_content}>
+
           <div className={styles.question_title}>
-            Question {idx + 1} of {length_questions}
+            {q_or_a == 0 && 'Question'} {q_or_a == 1 && 'Answer'} {idx + 1} of {length_questions}
           </div>
           
           <div className={styles.card}>
@@ -93,12 +128,27 @@ const Overview = (props) => {
                 <a className={styles.button} onClick={handleTranslation} data-type={"r"}>
                   <FaLongArrowAltRight/>
                 </a>
-
           </div>
-      </div>
-  </div>
+         </div>
     )
 }
+
+
+const Mcq = (props) => {
+  return (
+    <div className={styles.flash_content}>
+          <div className={styles.question_title}>
+            Question 1 of 6
+          </div>
+          
+          <h1>
+          What matches __?
+          </h1>
+          
+    </div>
+    )
+}
+
 
 const ContainerBelow = styled.div`
     width: 100%;
