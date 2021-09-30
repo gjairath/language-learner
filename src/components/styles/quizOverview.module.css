@@ -15,19 +15,23 @@
     height: 50%;
 }
 
-.flash-wrapper{
+svg{
+    font-size: 20px;
+}
+
+.flash_wrapper{
     height: calc(100% - 15% - 50px);
     display:flex;
     width: 100%;
     justify-content: center;
 }
 
-.flash-content{
+.flash_content{
     height: 100%;
     width: 60%;
 }
 
-.question-title{
+.question_title{
     text-align: right;
     height: 30px;
     font-size: 15px;
@@ -38,4 +42,20 @@
     justify-content: center;
     align-items: center;
     font-size: 30px;
+    
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card_toolbar{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
 }

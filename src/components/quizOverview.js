@@ -5,16 +5,17 @@ import { FaLongArrowAltRight, FaLongArrowAltLeft } from 'react-icons/fa';
 import {GiCardExchange} from 'react-icons/gi'
 import styled from 'styled-components'
 
-import './styles/quizOverview.css';
+import styles from './styles/quizOverview.module.css';
 
 const ContentContainer = (props) => {
+
     
   return (
       <ContainerBelow>
           <OptionsWrapper>
-                <a class="button">Normal</a>
-                <a class="button">Multiple-Choice</a>
-                <a href="#" class="button">Match</a>
+                <a class={styles.button}>Normal</a>
+                <a class={styles.button}>Multiple-Choice</a>
+                <a href="#" class={styles.button}>Match</a>
           </OptionsWrapper>
           
           <Overview>
@@ -26,28 +27,70 @@ const ContentContainer = (props) => {
 
 const Overview = (props) => {
 
+// Handle case where quiz is loaded first.
+
+    var all_cards = JSON.parse(localStorage.getItem('flashcards'));    
+    var length_questions = Object.keys(all_cards).length;
+
+    const [idx, setIdx] = useState(0);
+
+    // 0 for question 1 for answer
+    const [q_or_a, setQ] = useState(0);
+    
+    const handleFlip = (e) => {
+        if (q_or_a == 0) {
+            setQ(1);
+        } else {
+           setQ(0);
+        }
+    }
+    
+    const handleTranslation = (e) => {
+        const type = e.currentTarget.dataset.type;  
+    
+        // 0 for left 1 for right, to prevent de-duplication.
+        
+        if (type == "l") {
+            //console.log("left")
+            
+            if (idx == 0) {
+                console.log("Cant go left");
+                return;
+            }
+            setIdx(idx - 1);
+        } else {
+        
+            if (idx == length_questions - 1) {
+                console.log("Cant go right");
+                return;
+            }
+            setIdx(idx + 1);
+        }
+    
+    }
+
   return (
-  
-  <div className="flash-wrapper">
-      <div className="flash-content">
-          <div className="question-title">
-            Question 1 of 20
+  <div className={styles.flash_wrapper}>  
+      <div className={styles.flash_content}>
+          <div className={styles.question_title}>
+            Question {idx + 1} of {length_questions}
           </div>
           
-          <div className="card">
-              Shit
+          <div className={styles.card}>
+              {all_cards[idx][q_or_a].length > 0 && all_cards[idx][q_or_a]}
+              {all_cards[idx][q_or_a].length == 0 && "No Question Found"}
           </div>
           
-          <div className="card-toolbar">
-                <a class="button">
+          <div className={styles.card_toolbar}>
+                <a className={styles.button} data-type='l' onClick={handleTranslation}>
                     <FaLongArrowAltLeft/>
                 </a>
                 
-                <a class="button">
+                <a className={styles.button} onClick={handleFlip}>
                     <GiCardExchange/>
                 </a>
                 
-                <a class="button">
+                <a className={styles.button} onClick={handleTranslation} data-type={"r"}>
                   <FaLongArrowAltRight/>
                 </a>
 
