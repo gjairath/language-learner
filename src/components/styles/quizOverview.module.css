@@ -54,9 +54,30 @@ svg{
     border-radius: .25rem;
 
     margin-bottom: 25px;
+    
+    cursor: pointer;
 }
 
 .card_toolbar{
     display: flex;
     justify-content: space-between;
+}
+
+
+.question{
+    font-size: 2rem;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.question_options{
+    
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-size: 1.1rem;
+    
+    color: rgba(0, 0, 0, 0.6);
+    
+    margin-left: 5px;
 }

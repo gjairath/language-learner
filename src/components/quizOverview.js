@@ -46,6 +46,14 @@ const Normal = (props) => {
     const [q_or_a, setQ] = useState(0);
     
     const handleFlip = (e) => {
+        if (e instanceof KeyboardEvent) {
+
+           if (e.code != "Space") {
+               return;
+           }
+        }
+        console.log(e.code);
+        
         if (q_or_a == 0) {
             setQ(1);
         } else {
@@ -99,9 +107,14 @@ const Normal = (props) => {
     }
     
     useEffect(() => {
-  document.addEventListener("keydown", handleTranslation);
-  return () => document.removeEventListener("keydown", handleTranslation);
-});
+      document.addEventListener("keydown", handleTranslation);
+      document.addEventListener("keydown", handleFlip);
+      
+        return () => {
+          document.removeEventListener("keydown", handleTranslation);
+          document.removeEventListener("keydown", handleFlip);
+        };
+    });
 
     
   return (
@@ -111,7 +124,7 @@ const Normal = (props) => {
             {q_or_a == 0 && 'Question'} {q_or_a == 1 && 'Answer'} {idx + 1} of {length_questions}
           </div>
           
-          <div className={styles.card}>
+          <div className={styles.card} onClick={handleFlip}>
               {all_cards[idx][q_or_a].length > 0 && all_cards[idx][q_or_a]}
               {all_cards[idx][q_or_a].length == 0 && "No Question Found"}
           </div>
@@ -133,18 +146,87 @@ const Normal = (props) => {
     )
 }
 
-
 const Mcq = (props) => {
+
+    const [windowSize, setWindowSize] = useState(false);
+    const [questionsObj, setQuestionsObj] = useState([]);
+    
+    var all_cards = JSON.parse(localStorage.getItem('flashcards'));    
+    var length_questions = Object.keys(all_cards).length;
+
+    const get_question_options = () => {
+              
+        // Make Object: {0: [0,1,2,3], 4:[1, 4, 5, 6] ...}
+
+        var window;
+        if (length_questions > 10) {
+            window = 10;
+        } else { 
+            window = length_questions;
+        }
+        
+        //https://stackoverflow.com/questions/2380019/generate-unique-random-numbers-between-1-and-100
+        var questions = [];
+        while(questions.length < window){
+            var r = Math.floor(Math.random() * window);
+            if(questions.indexOf(r) === -1) questions.push(r);
+        }
+                
+        var results = [];
+        for (let idx of questions) {
+            // ensure the answers has the correct answer.
+            var answers = [idx];
+            
+            while(answers.length < 4){
+                var r = Math.floor(Math.random() * window);
+                if(answers.indexOf(r) === -1 && r != idx) {
+                    answers.push(r);
+                }
+            }
+            
+            //  Durstenfeld shuffle
+            for (var i = answers.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = answers[i];
+                answers[i] = answers[j];
+                answers[j] = temp;
+            }
+            answers.push(idx);
+            results.push(answers);
+        }
+        setQuestionsObj(results);
+        console.log(results);
+    } 
+    
+    useEffect(() => {
+        if (windowSize == false) { 
+            get_question_options();
+            setWindowSize(true);
+        }
+    });
+    
+    
+
+// all_cards[questionsObj[0]][0]
+// 
+
   return (
     <div className={styles.flash_content}>
-          <div className={styles.question_title}>
-            Question 1 of 6
+    {console.log(questionsObj)}
+          <div className={styles.question_title} onClick={get_question_options}>
+            Question 1 of 6 (CLICK THIS)
+          </div>
+          <div className={styles.question}>
+          What matches <i>{questionsObj.length != 0 && all_cards[questionsObj[0][4]][0]}</i>?
           </div>
           
-          <h1>
-          What matches __?
-          </h1>
-          
+          <div className={styles.question_options}>
+          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][0]][1]} </p>
+          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][1]][1]} </p>
+          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][2]][1]} </p>
+          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][3]][1]} </p>
+          </div>
+                    
     </div>
     )
 }
