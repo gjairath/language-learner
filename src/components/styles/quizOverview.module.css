@@ -81,3 +81,8 @@ svg{
     
     margin-left: 5px;
 }
+.question_option{
+    border-bottom: 0.0093rem solid rgba(0,0,0,0.1);
+    padding-bottom: 5px;
+    cursor: pointer;
+}

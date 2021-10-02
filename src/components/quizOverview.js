@@ -151,12 +151,19 @@ const Mcq = (props) => {
     const [windowSize, setWindowSize] = useState(false);
     const [questionsObj, setQuestionsObj] = useState([]);
     
-    var all_cards = JSON.parse(localStorage.getItem('flashcards'));    
+    const [score, setScore] = useState(0);
+    const [idx, setIdx] = useState(0);
+    
+    var all_cards = JSON.parse(localStorage.getItem('flashcards')); 
+    
+    console.log(Object.keys(all_cards).length);
+       
     var length_questions = Object.keys(all_cards).length;
 
     const get_question_options = () => {
               
-        // Make Object: {0: [0,1,2,3], 4:[1, 4, 5, 6] ...}
+        // Note to future self:
+            // Each contains an array [opt1, opt2, opt3, opt4, unshuffled question flag]
 
         var window;
         if (length_questions > 10) {
@@ -171,10 +178,11 @@ const Mcq = (props) => {
             var r = Math.floor(Math.random() * window);
             if(questions.indexOf(r) === -1) questions.push(r);
         }
+        // questions contains array of random indicies that points to all_cards
                 
         var results = [];
         for (let idx of questions) {
-            // ensure the answers has the correct answer.
+            // idx is the question number in all_Cards
             var answers = [idx];
             
             while(answers.length < 4){
@@ -191,11 +199,12 @@ const Mcq = (props) => {
                 answers[i] = answers[j];
                 answers[j] = temp;
             }
+            
+            // push the IDX at the end to  keep it unshuffled, to display the question
             answers.push(idx);
             results.push(answers);
         }
         setQuestionsObj(results);
-        console.log(results);
     } 
     
     useEffect(() => {
@@ -205,26 +214,42 @@ const Mcq = (props) => {
         }
     });
     
+    const handleTransition = (e) => {
     
+        // questionsObj's last value has the question on screen.
+        // all_cards can make for ez pz comparison. 
+        
+      //  console.log(all_cards[questionsObj[idx][4]][1])
+        
+        if (idx + 1 == length_questions) { return; }
 
-// all_cards[questionsObj[0]][0]
-// 
-
+        if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
+            setScore(score + 1);
+        } else {
+            setScore(score - 1);
+        }
+        
+         
+        console.log(length_questions);
+        console.log(idx);
+        setIdx(idx + 1);    
+    
+    }
+    
   return (
     <div className={styles.flash_content}>
-    {console.log(questionsObj)}
-          <div className={styles.question_title} onClick={get_question_options}>
-            Question 1 of 6 (CLICK THIS)
+          <div className={styles.question_title}>
+            Question {idx + 1} of {length_questions} [Score: {score}]
           </div>
           <div className={styles.question}>
-          What matches <i>{questionsObj.length != 0 && all_cards[questionsObj[0][4]][0]}</i>?
+          What matches <i>{questionsObj.length != 0 && all_cards[questionsObj[idx][4]][0]}</i>?
           </div>
           
           <div className={styles.question_options}>
-          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][0]][1]} </p>
-          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][1]][1]} </p>
-          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][2]][1]} </p>
-          <p> {questionsObj.length != 0 && all_cards[questionsObj[0][3]][1]} </p>
+          <p className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][0]][1]}</p>
+          <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][1]][1]}</p>
+          <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][2]][1]}</p>
+          <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][3]][1]}</p>
           </div>
                     
     </div>
