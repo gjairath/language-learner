@@ -6,6 +6,7 @@ import {GiCardExchange} from 'react-icons/gi'
 import styled from 'styled-components'
 
 import styles from './styles/quizOverview.module.css';
+import Progress from "./progress.js"
 
 const ContentContainer = (props) => {
 
@@ -150,13 +151,13 @@ const Mcq = (props) => {
 
     const [windowSize, setWindowSize] = useState(false);
     const [questionsObj, setQuestionsObj] = useState([]);
-    
     const [score, setScore] = useState(0);
     const [idx, setIdx] = useState(0);
     
+    const [timer, setTimer] = useState(0);
+    
     var all_cards = JSON.parse(localStorage.getItem('flashcards')); 
     
-    console.log(Object.keys(all_cards).length);
        
     var length_questions = Object.keys(all_cards).length;
 
@@ -211,8 +212,21 @@ const Mcq = (props) => {
         if (windowSize == false) { 
             get_question_options();
             setWindowSize(true);
-        }
+        }        
     });
+    
+    useEffect(() => {
+        console.log(timer);
+        if (idx + 1 === length_questions) {return;}
+        if (timer === 100){
+            setIdx(idx + 1);
+            setTimer(0);
+        }
+        
+        const timeOutId = setTimeout(() => setTimer(timer + 10), 1000);
+        return () => clearTimeout(timeOutId);
+      });
+
     
     const handleTransition = (e) => {
     
@@ -220,8 +234,10 @@ const Mcq = (props) => {
         // all_cards can make for ez pz comparison. 
         
       //  console.log(all_cards[questionsObj[idx][4]][1])
+      
+          setTimer(0);
         
-        if (idx + 1 == length_questions) { return; }
+        if (idx + 1 === length_questions) { return; }
 
         if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
             setScore(score + 1);
@@ -251,7 +267,8 @@ const Mcq = (props) => {
           <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][2]][1]}</p>
           <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][3]][1]}</p>
           </div>
-                    
+            
+            <Progress now={timer}/>
     </div>
     )
 }
