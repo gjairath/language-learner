@@ -153,14 +153,15 @@ const Mcq = (props) => {
     const [questionsObj, setQuestionsObj] = useState([]);
     const [score, setScore] = useState(0);
     const [idx, setIdx] = useState(0);
-    
     const [timer, setTimer] = useState(0);
     
-    var all_cards = JSON.parse(localStorage.getItem('flashcards')); 
     
-       
-    var length_questions = Object.keys(all_cards).length;
-
+    
+    const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
+    const length_questions = Object.keys(all_cards).length;
+    
+    const difficulty = [1, 2, 3];
+    
     const get_question_options = () => {
               
         // Note to future self:

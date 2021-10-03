@@ -1,6 +1,5 @@
 import { React }from 'react'
 import { ProgressBar } from 'react-bootstrap'
-import "./styles/progress.css"
 
 const Progress = (props) => {
 

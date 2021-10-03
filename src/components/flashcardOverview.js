@@ -5,6 +5,8 @@ import { Nav } from 'react-bootstrap'
 import styled from 'styled-components'
 import './styles/flashcardOverview.css';
 
+import ToolBarComp from "./toolbar.js"
+
 const ContentContainer = (props) => {
 
 // componentDidUpdate + DidMount to check condition after render + changes
@@ -191,6 +193,12 @@ const Overview = (props) => {
         }    
     }
     
+    // Utility for Tool-Bar at the bottom, reusable user-component.    
+   let left_reset_button = <a href="#" onClick={reinit} style={{marginLeft: "30px"}} class="button">Reset all</a>;
+   let right_more_btn = <a onClick={handleMoreCards} class="button">More</a>
+   let right_quiz_btn = <a href="/quiz" class="button">Quiz</a>
+   let right_pdf_btn = <a href="#" class="button">Pdf</a>
+   
   return (
   <div className="list-content-wrapper">
     <ul>
@@ -208,16 +216,13 @@ const Overview = (props) => {
                     </li>;
                           })}
     </ul>
-    <ToolBar>
-        <ToolBarWrapper style={{justifyContent: "flex-start"}}>
-            <a href="#" onClick={reinit} style={{marginLeft: "30px"}} class="button">Reset all</a>
-        </ToolBarWrapper>
-        <ToolBarWrapper>
-            <a onClick={handleMoreCards} class="button">More</a>
-            <a href="/quiz" class="button">Quiz</a>
-            <a href="#" class="button">Pdf</a>
-        </ToolBarWrapper>
-    </ToolBar>
+    
+    <ToolBarComp 
+            left = 
+                {left_reset_button} 
+            right = 
+                {[right_more_btn, right_quiz_btn, right_pdf_btn]}
+    />
 
   </div>
   );
@@ -238,24 +243,6 @@ const WrapperBelow = styled.div`
     
     color: rgba(0,0,0,0.7);
     flex-direction: column;    
-`
-
-const ToolBar = styled.div`
-    background-color: rgba(254,245,218, 0.4);
-    max-width: 960px;
-    margin: 10px auto;
-    border-radius: 8px;
-    display: flex;
-    height: 40px;
-`
-
-const ToolBarWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 25px;
-    
-    height: 40px;
-    width 50%;
 `
 
 export default ContentContainer
