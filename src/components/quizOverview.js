@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import styles from './styles/quizOverview.module.css';
 import Progress from "./progress.js"
+import ToolBarComp from "./toolbar.js"
 
 const ContentContainer = (props) => {
 
@@ -154,13 +155,11 @@ const Mcq = (props) => {
     const [score, setScore] = useState(0);
     const [idx, setIdx] = useState(0);
     const [timer, setTimer] = useState(0);
-    
+    const [weight, setWeight] = useState(1);    
     
     
     const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
     const length_questions = Object.keys(all_cards).length;
-    
-    const difficulty = [1, 2, 3];
     
     const get_question_options = () => {
               
@@ -219,16 +218,24 @@ const Mcq = (props) => {
     useEffect(() => {
         console.log(timer);
         if (idx + 1 === length_questions) {return;}
-        if (timer === 100){
+        if (timer >= 100){
             setIdx(idx + 1);
+            // higher penalty if u miss.
+            setScore(score - (150 * weight));
             setTimer(0);
         }
         
-        const timeOutId = setTimeout(() => setTimer(timer + 10), 1000);
+        const timeOutId = setTimeout(() => setTimer(timer + (weight*10)), 1000);
         return () => clearTimeout(timeOutId);
       });
 
-    
+    const reinit = (e) => {
+        setIdx(0);
+        setScore(0);
+        setTimer(0);
+        setWeight(1);
+        get_question_options();
+    }
     const handleTransition = (e) => {
     
         // questionsObj's last value has the question on screen.
@@ -241,9 +248,9 @@ const Mcq = (props) => {
         if (idx + 1 === length_questions) { return; }
 
         if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
-            setScore(score + 1);
+            setScore(score + (100 * weight));
         } else {
-            setScore(score - 1);
+            setScore(score - (100 * weight));
         }
         
          
@@ -252,11 +259,18 @@ const Mcq = (props) => {
         setIdx(idx + 1);    
     
     }
-    
+    // 10, 5, 2.5, etc.
+    console.log(weight);
+        // Utility for Tool-Bar at the bottom, reusable user-component.    
+   let left_reset_button = <a onClick={reinit} style={{marginLeft: "30px"}} class="button">Try Again</a>;
+   let left_easy = <a class="button" onClick={() => setWeight(weight - 1)} >Easier</a>;
+   let left_hard = <a class="button" onClick={() => setWeight(weight + 1)}>Harder</a>;
+   let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
+   
   return (
     <div className={styles.flash_content}>
           <div className={styles.question_title}>
-            Question {idx + 1} of {length_questions} [Score: {score}]
+            Question {idx + 1} of {length_questions} [Winnings: {score}$, Difficulty: {weight}, Timer: {Math.floor(10 / weight)} Seconds]
           </div>
           <div className={styles.question}>
           What matches <i>{questionsObj.length != 0 && all_cards[questionsObj[idx][4]][0]}</i>?
@@ -270,6 +284,14 @@ const Mcq = (props) => {
           </div>
             
             <Progress now={timer}/>
+            
+                <ToolBarComp 
+            left = 
+                {[left_reset_button]} 
+            right = 
+                {[left_easy, left_hard, right_more_btn]}
+            />
+            
     </div>
     )
 }
@@ -277,7 +299,7 @@ const Mcq = (props) => {
 
 const ContainerBelow = styled.div`
     width: 100%;
-    height: 85%;
+    height: auto;
 `
 
 const OptionsWrapper = styled.div`

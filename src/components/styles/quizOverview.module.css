@@ -11,7 +11,7 @@
     
     text-decoration: none;
     cursor: pointer;
-    
+
     height: 50%;
 }
 
@@ -29,6 +29,7 @@ svg{
 .flash_content{
     height: 100%;
     width: 60%;
+    
 }
 
 .question_title{

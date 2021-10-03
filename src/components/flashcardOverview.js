@@ -219,7 +219,7 @@ const Overview = (props) => {
     
     <ToolBarComp 
             left = 
-                {left_reset_button} 
+                {[left_reset_button]} 
             right = 
                 {[right_more_btn, right_quiz_btn, right_pdf_btn]}
     />
