@@ -4,6 +4,8 @@ import { Nav } from 'react-bootstrap'
 import { FaLongArrowAltRight, FaLongArrowAltLeft } from 'react-icons/fa';
 import {GiCardExchange} from 'react-icons/gi'
 import styled from 'styled-components'
+import {flash} from "react-universal-flash";
+
 
 import styles from './styles/quizOverview.module.css';
 import Progress from "./progress.js"
@@ -22,12 +24,13 @@ const ContentContainer = (props) => {
           <OptionsWrapper>
                 <a class={styles.button} data-type="0" onClick={handleTab}>Normal</a>
                 <a class={styles.button} data-type="1" onClick={handleTab}>Multiple-Choice</a>
-                <a href="#" class={styles.button} data-type="2" onClick={handleTab}>Match</a>
+                <a class={styles.button} data-type="2" onClick={handleTab}>Match</a>
           </OptionsWrapper>
           
             <div className={styles.flash_wrapper}>  
                   {active == 0 && <Normal />} 
                   {active == 1 && <Mcq />}
+                  {active == 2 && <Match />}
           </div>
           
       </ContainerBelow>
@@ -249,8 +252,10 @@ const Mcq = (props) => {
 
         if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
             setScore(score + (100 * weight));
+            flash(100 * weight, 500);
         } else {
             setScore(score - (100 * weight));
+            flash(-100 * weight, 500);
         }
         
          
@@ -260,21 +265,25 @@ const Mcq = (props) => {
     
     }
     // 10, 5, 2.5, etc.
-    console.log(weight);
         // Utility for Tool-Bar at the bottom, reusable user-component.    
    let left_reset_button = <a onClick={reinit} style={{marginLeft: "30px"}} class="button">Try Again</a>;
    let left_easy = <a class="button" onClick={() => setWeight(weight - 1)} >Easier</a>;
    let left_hard = <a class="button" onClick={() => setWeight(weight + 1)}>Harder</a>;
    let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
+ 
+   console.log(questionsObj);
    
   return (
-    <div className={styles.flash_content}>
-          <div className={styles.question_title}>
-            Question {idx + 1} of {length_questions} [Winnings: {score}$, Difficulty: {weight}, Timer: {Math.floor(10 / weight)} Seconds]
+  
+   <div className={styles.flash_content}>
+        <div className={styles.question_title}>
+            Question {idx + 1} of {length_questions} [Winnings: {score}$, Difficulty: {weight}, Timer: {Math.ceil(10 / weight)} Seconds]
           </div>
           <div className={styles.question}>
           What matches <i>{questionsObj.length != 0 && all_cards[questionsObj[idx][4]][0]}</i>?
           </div>
+          
+   
           
           <div className={styles.question_options}>
           <p className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][0]][1]}</p>
@@ -291,6 +300,83 @@ const Mcq = (props) => {
             right = 
                 {[left_easy, left_hard, right_more_btn]}
             />
+            
+    </div>
+    )
+}
+
+
+const Match = (props) => {
+
+
+    const [score, setScore] = useState(0);
+    const [question, setQuestion] = useState(["", false]);
+    const [init, setInit] = useState(true);
+
+
+    const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
+    const length_questions = Object.keys(all_cards).length;
+
+    // re-redner this every time because flashcard may change.
+    const flatten=(obj)=>Object.values(obj).flat()
+    var all_buttons = flatten(all_cards);
+    all_buttons = all_buttons.slice(0, 16);
+     // drop the shuffle hammer.
+     for (var i = all_buttons.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = all_buttons[i];
+        all_buttons[i] = all_buttons[j];
+        all_buttons[j] = temp;
+    }
+    
+
+    const reinit = (e) => {
+        setScore(score-1);
+    }
+
+    const handleSubmission = (e) => {
+        console.log(question);
+        
+        if (question[1] == true) {
+            // the douchebag clicked an answer
+            
+            setQuestion(["" , false]);
+        }
+        
+        
+        console.log(e.currentTarget);
+    
+        e.currentTarget.classList.add('textGlowing');
+        setQuestion([e.currentTarget.textContent, "true"]);
+    };
+
+        // Utility for Tool-Bar at the bottom, reusable user-component.    
+   let left_reset_button = <a style={{marginLeft: "30px"}} onClick={reinit} class="button">Try Again</a>;
+   let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
+   
+  return (
+  
+   <div className={styles.matching_content}>
+           <div className={styles.matching_question}>
+            <p> {question[1] != "" && 'Picked: ' + question[0]} </p>
+            <p> Winnings: {score}$ </p> 
+          </div>
+
+       {all_buttons.map((item, idx) => {
+            return <a class="button" onClick={handleSubmission}
+                style={{height: "75px", width: "150px", marginLeft: "25px", fontSize:"19px", textTransform:"lowercase"}}>
+                   {item}
+                </a>;
+        })}
+ 
+
+                        
+        <ToolBarComp 
+    left = 
+        {[left_reset_button]} 
+    right = 
+        {[right_more_btn]}
+    />
             
     </div>
     )

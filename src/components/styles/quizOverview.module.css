@@ -26,16 +26,35 @@ svg{
     justify-content: center;
 }
 
+.textGlowing{
+    text-shadow-color: 'rgba(0, 0, 0, 0.75)';
+  }
+
 .flash_content{
     height: 100%;
     width: 60%;
-    
+}
+
+.matching_content{
+    display: block;
+        
+    height: auto;
+    width: 70%;
+
+    padding: 25px;
 }
 
 .question_title{
     text-align: right;
     height: 30px;
     font-size: 15px;
+}
+
+.matching_question{
+    display:flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .card{
