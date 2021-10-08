@@ -219,7 +219,6 @@ const Mcq = (props) => {
     });
     
     useEffect(() => {
-        console.log(timer);
         if (idx + 1 === length_questions) {return;}
         if (timer >= 100){
             setIdx(idx + 1);
@@ -252,10 +251,11 @@ const Mcq = (props) => {
 
         if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
             setScore(score + (100 * weight));
-            flash(100 * weight, 500);
+            let sc = 100 * weight;
+            flash(`+${sc}`, 350, "success");
         } else {
             setScore(score - (100 * weight));
-            flash(-100 * weight, 500);
+            flash(-100 * weight, 350, "dark");
         }
         
          
@@ -271,11 +271,10 @@ const Mcq = (props) => {
    let left_hard = <a class="button" onClick={() => setWeight(weight + 1)}>Harder</a>;
    let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
  
-   console.log(questionsObj);
    
   return (
   
-   <div className={styles.flash_content}>
+   <div className={styles.flash_content}>      
         <div className={styles.question_title}>
             Question {idx + 1} of {length_questions} [Winnings: {score}$, Difficulty: {weight}, Timer: {Math.ceil(10 / weight)} Seconds]
           </div>
@@ -308,46 +307,90 @@ const Mcq = (props) => {
 
 const Match = (props) => {
 
+    const flatten=(obj)=>Object.values(obj).flat()
+
+    const shuffle = (arr) => {
+        for (var i = arr.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        return arr;
+    }    
+    
 
     const [score, setScore] = useState(0);
-    const [question, setQuestion] = useState(["", false]);
+    const [question, setQuestion] = useState(["", '', 'false']);
     const [init, setInit] = useState(true);
 
 
     const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
     const length_questions = Object.keys(all_cards).length;
 
-    // re-redner this every time because flashcard may change.
-    const flatten=(obj)=>Object.values(obj).flat()
-    var all_buttons = flatten(all_cards);
+    var [all_buttons, setAllButtons] = useState(flatten(all_cards));
     all_buttons = all_buttons.slice(0, 16);
-     // drop the shuffle hammer.
-     for (var i = all_buttons.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = all_buttons[i];
-        all_buttons[i] = all_buttons[j];
-        all_buttons[j] = temp;
-    }
-    
+    all_buttons = shuffle(all_buttons);
 
     const reinit = (e) => {
-        setScore(score-1);
+        setScore(0);
+        setAllButtons(flatten(all_cards));
+    }
+    
+    const findCardByQuestionOrAnswer = (q_name) => {
+        for (const card in all_cards){
+            let card_arr = all_cards[card];
+
+            if (card_arr[0] == q_name) {
+                return card_arr[1];
+            }
+            
+            if (card_arr[1] == q_name) {
+                return card_arr[0];
+            }
+
+        }
+        return -1;
+    }
+    
+    const process = (str) => {
+        
+        var res = str.replace(/\s+/g, "");
+        return res.toLowerCase();
     }
 
-    const handleSubmission = (e) => {
-        console.log(question);
-        
-        if (question[1] == true) {
+    const handleSubmission = (e) => {        
+        if (question[2] == 'true') {
             // the douchebag clicked an answer
+
+            let answer = e.currentTarget.textContent;
+            let correctAnswer = findCardByQuestionOrAnswer(question[0]);
             
-            setQuestion(["" , false]);
+            if (answer == correctAnswer) {
+                setScore(score + 100);
+                flash(`${question[0]} is ${answer}! +100`, 800, "success");
+                let arr = [];
+                all_buttons.filter( (word) => {
+                
+                    let processed_val = process(word);
+                    
+                    if (processed_val == process(answer) || processed_val == process(question[0])) {
+                        console.log("YES");
+                    } else {
+                        arr.push(word);
+                    }                    
+                })
+               setAllButtons(arr);
+
+            } else {
+                setScore(score - 100);
+                flash('-100', 800, "dark");
+            }
+            
+            setQuestion(["" , '', 'false']);
+        } else {
+            setQuestion([e.currentTarget.textContent, '',"true"]);        
         }
-        
-        
-        console.log(e.currentTarget);
-    
-        e.currentTarget.classList.add('textGlowing');
-        setQuestion([e.currentTarget.textContent, "true"]);
     };
 
         // Utility for Tool-Bar at the bottom, reusable user-component.    
@@ -355,10 +398,10 @@ const Match = (props) => {
    let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
    
   return (
-  
    <div className={styles.matching_content}>
+  {console.log(all_buttons)}
            <div className={styles.matching_question}>
-            <p> {question[1] != "" && 'Picked: ' + question[0]} </p>
+            <p style={{marginLeft: "25px"}}> {question[0] != "" && question[2] == 'true' && 'Question Picked: ' + question[0]} </p>
             <p> Winnings: {score}$ </p> 
           </div>
 
