@@ -1,4 +1,4 @@
-# My First Expiernece w/ React
+# My First Experience w/ React
 
 <br> <br> <br>
 
