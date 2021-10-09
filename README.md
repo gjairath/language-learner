@@ -1,6 +1,6 @@
-# My First React-APP
+# My First Expiernece w/ React
 
-My first expierence with React!
+<br> <br> <br>
 
 ### `npm start`
 
