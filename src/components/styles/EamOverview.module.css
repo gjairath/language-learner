@@ -37,6 +37,12 @@ svg{
     padding: 25px;
 }
 
+.question_big{
+    text-align: center;
+    height: 30px;
+    font-size: 30px;
+}
+
 .question_title{
     text-align: right;
     height: 30px;
@@ -50,11 +56,21 @@ svg{
     margin-bottom: 15px;
 }
 
+
+.card > img {
+  height: auto;
+  max-height: 350px;
+  width: auto;
+  max-width: 350px;
+  
+  object-fit: cover;
+}
+
 .card{
     height: 50vh;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 18px;
     
     position: relative;
     display: flex;
@@ -94,6 +110,7 @@ svg{
     
     margin-left: 5px;
 }
+
 .question_option{
     border-bottom: 0.0093rem solid rgba(0,0,0,0.1);
     padding-bottom: 5px;

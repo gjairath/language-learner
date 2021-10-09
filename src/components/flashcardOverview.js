@@ -60,19 +60,18 @@ const Overview = (props) => {
         if(loadedCards.length > 0) {
             localStorage.setItem('currentCards', JSON.stringify(loadedCards));
         }
-        
-        if (typeof all_cards === 'object') {
-            all_cards[loadedCards.length] = ["", ""];
-        } else {
-                // handled already by null case
-                // it works its a piece of shit but it works.
-                // only took 6 hours of my life.
-        }
 
     }, [loadedCards]);
 
     useEffect(() => {
-        setLoadedCards(currentCards);
+        const initCards = JSON.parse(localStorage.getItem('currentCards'));
+        if (initCards) {
+            console.log(typeof initCards);
+            setLoadedCards(initCards);
+            console.log("HEY" + loadedCards);
+        } else {
+            setLoadedCards(currentCards);
+        }
     }, [currentCards]);
 
     // Set a timeout so this function isn't called too many times.
@@ -197,13 +196,17 @@ const Overview = (props) => {
    let left_reset_button = <a href="#" onClick={reinit} style={{marginLeft: "30px"}} class="button">Reset all</a>;
    let right_more_btn = <a onClick={handleMoreCards} class="button">More</a>
    let right_quiz_btn = <a href="/quiz" class="button">Quiz</a>
-   let right_pdf_btn = <a href="#" class="button">Pdf</a>
+   let right_pdf_btn = <a onClick={window.print} class="button">Pdf</a>
+   
    
   return (
+  
   <div className="list-content-wrapper">
     <ul>
+    {console.log(loadedCards)}
+
         {loadedCards.map((item, idx) => {
-                
+  
             // This should be called after user stops typing, otherwise it will be slow af.
             return <li className="list-items">
                         <div className="text-content" ref={el => questionRefs.current[idx] = el} onClick={addAnimationBox} onBlur={removeAnimationBox}> 

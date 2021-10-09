@@ -4,6 +4,7 @@ import App from "./App";
 import FlashCard from "./components/flashCard.js"
 import Message from "./components/Message.js"
 import Quiz from "./components/Quiz.js"
+import EAM from "./components/Eam.js"
 import {Flasher} from "react-universal-flash";
 
 
@@ -17,6 +18,7 @@ const Routes = () => {
         <Route exact path={["/", "/home"]} component={App} />
          <Route path="/flashcards" component={FlashCard}/>
         <Route path="/quiz" component={Quiz} />
+        <Route path="/eams" component={EAM} />
     </Switch>
     </Router>
   );

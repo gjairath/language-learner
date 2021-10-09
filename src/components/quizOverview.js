@@ -27,12 +27,11 @@ const ContentContainer = (props) => {
                 <a class={styles.button} data-type="2" onClick={handleTab}>Match</a>
           </OptionsWrapper>
           
-            <div className={styles.flash_wrapper}>  
+          <FlashWrapper>
                   {active == 0 && <Normal />} 
                   {active == 1 && <Mcq />}
                   {active == 2 && <Match />}
-          </div>
-          
+            </FlashWrapper>
       </ContainerBelow>
   )
 }
@@ -164,17 +163,12 @@ const Mcq = (props) => {
     const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
     const length_questions = Object.keys(all_cards).length;
     
-    const get_question_options = () => {
+    const get_question_options = (window) => {
               
         // Note to future self:
             // Each contains an array [opt1, opt2, opt3, opt4, unshuffled question flag]
-
-        var window;
-        if (length_questions > 10) {
-            window = 10;
-        } else { 
-            window = length_questions;
-        }
+            
+            // Take the first window worth of questions in a random order alongside options in a random order.
         
         //https://stackoverflow.com/questions/2380019/generate-unique-random-numbers-between-1-and-100
         var questions = [];
@@ -182,7 +176,6 @@ const Mcq = (props) => {
             var r = Math.floor(Math.random() * window);
             if(questions.indexOf(r) === -1) questions.push(r);
         }
-        // questions contains array of random indicies that points to all_cards
                 
         var results = [];
         for (let idx of questions) {
@@ -212,10 +205,14 @@ const Mcq = (props) => {
     } 
     
     useEffect(() => {
-        if (windowSize == false) { 
-            get_question_options();
+        if (windowSize == false) {
+            get_question_options(length_questions);
             setWindowSize(true);
-        }        
+        }
+        
+        if (idx == 9) {
+            console.log("SWAG")
+        }
     });
     
     useEffect(() => {
@@ -230,6 +227,8 @@ const Mcq = (props) => {
         const timeOutId = setTimeout(() => setTimer(timer + (weight*10)), 1000);
         return () => clearTimeout(timeOutId);
       });
+      
+      console.log(questionsObj);
 
     const reinit = (e) => {
         setIdx(0);
@@ -247,7 +246,6 @@ const Mcq = (props) => {
       
           setTimer(0);
         
-        if (idx + 1 === length_questions) { return; }
 
         if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
             setScore(score + (100 * weight));
@@ -258,9 +256,7 @@ const Mcq = (props) => {
             flash(-100 * weight, 350, "dark");
         }
         
-         
-        console.log(length_questions);
-        console.log(idx);
+        if (idx + 1 === length_questions) { return; }         
         setIdx(idx + 1);    
     
     }
@@ -368,7 +364,7 @@ const Match = (props) => {
             
             if (answer == correctAnswer) {
                 setScore(score + 100);
-                flash(`${question[0]} is ${answer}! +100`, 800, "success");
+                flash(`${question[0]} is ${answer}! +100`, 1450, "success");
                 let arr = [];
                 all_buttons.filter( (word) => {
                 
@@ -384,7 +380,7 @@ const Match = (props) => {
 
             } else {
                 setScore(score - 100);
-                flash('-100', 800, "dark");
+                flash(`${question[0]} is not ${answer}! -100`, 1450, "dark");
             }
             
             setQuestion(["" , '', 'false']);
@@ -425,6 +421,13 @@ const Match = (props) => {
     )
 }
 
+
+const FlashWrapper = styled.div`
+    height: calc(100% - 15% - 50px);
+    display:flex;
+    width: 100%;
+    justify-content: center;
+`
 
 const ContainerBelow = styled.div`
     width: 100%;

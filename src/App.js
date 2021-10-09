@@ -17,6 +17,7 @@ class App extends Component {
         <div className="parent">
             <NavBar />        
             <OverviewContainer basePageItems={[ ['Flash-Cards', 'Review Your Cards!', 'fc.png', '/flashcards'], 
+                                                ['Mnemonics', 'Visualize Things!', 'memory.png', '/eams'],
                                                 ['Quiz', 'Test Your Skills!', 'quiz.png', '/quiz'] ]}/>
         </div>              
     );
