@@ -1,5 +1,5 @@
 # My First Experience w/ React
-
+A language learner that is more curtailed to how I think languages should be learned.
 <br> <br> <br>
 
 ### `npm start`
