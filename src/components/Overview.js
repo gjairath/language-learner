@@ -1,11 +1,5 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
 
 import styled from 'styled-components'
 import styles from './styles/overview.module.css'; 
@@ -31,16 +25,20 @@ const Overview = (props) => {
     // item 0 has the name, item 1 has the icon
 
   const { basePageItems } = props;
-
+    console.log(basePageItems);
 
   return (
     <ul className={styles.listcontentwrapper}>
-        {basePageItems.map((item) => {
+        {basePageItems.map((item, idx) => {
             return <li className={styles.list_items}>
                         <div className={styles.text_content}> 
                             <h1> {item[0]} </h1> 
                             <p> {item[1]} </p> 
+                            <div className={styles.links}>
                             <a className={styles.link_inside} href={item[3]}> Look Inside </a> 
+
+                            {item[4]}
+                            </div>
                         </div>
                         <div className={styles.picture_content}> 
                             <img className={styles.img_content} src={"/images/" + item[2]} /> 

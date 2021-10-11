@@ -66,9 +66,7 @@ const Overview = (props) => {
     useEffect(() => {
         const initCards = JSON.parse(localStorage.getItem('currentCards'));
         if (initCards) {
-            console.log(typeof initCards);
             setLoadedCards(initCards);
-            console.log("HEY" + loadedCards);
         } else {
             setLoadedCards(currentCards);
         }
@@ -203,7 +201,6 @@ const Overview = (props) => {
   
   <div className="list-content-wrapper">
     <ul>
-    {console.log(loadedCards)}
 
         {loadedCards.map((item, idx) => {
   
