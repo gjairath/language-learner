@@ -6,14 +6,12 @@ import ContentContainer from "./flashcardOverview.js"
 const FlashCard = ({ match, location }) => {
   const [cards, setCards] = useState([0,1,2,3]);
 
-    const { params: { setID } } = match;
+  const { params: { setID } } = match;
 
-  
-  console.log(setID);
-  
+    
   useEffect(() => {
-      if (localStorage.getItem('currentCards')) {
-        setCards( JSON.parse(localStorage.getItem('currentCards')) );
+      if (localStorage.getItem(`currentCards-${setID}`)) {
+        setCards( JSON.parse(localStorage.getItem(`currentCards-${setID}`)) );
       }
     }, []);
     
@@ -22,7 +20,7 @@ const FlashCard = ({ match, location }) => {
     <div>
         <div className="parent">
             <NavBar />
-            <ContentContainer cards={ cards }/>
+            <ContentContainer cards={ cards } set={setID}/>
         </div> 
     </div>
   );

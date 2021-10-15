@@ -6,11 +6,14 @@ import styled from 'styled-components'
 import styles from './styles/EamOverview.module.css';
 
 
-const ContentContainer = (props) => {    
+const ContentContainer = (props) => {
+
+    const {set} = props;
+
   return (
       <ContainerBelow>          
             <FlashWrapper>
-                  <Normal />
+                  <Normal set={set}/>
           </FlashWrapper>
           
       </ContainerBelow>
@@ -18,8 +21,8 @@ const ContentContainer = (props) => {
 }
 
 const Normal = (props) => {
-
-    var all_cards = JSON.parse(localStorage.getItem('flashcards'));    
+    const {set} = props;
+    var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     var length_questions = Object.keys(all_cards).length;
 
     const [idx, setIdx] = useState(0);

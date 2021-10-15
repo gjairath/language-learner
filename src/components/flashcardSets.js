@@ -8,6 +8,8 @@ import NavBar from "./navbar.js";
 import OverviewContainer from "./Overview.js"
 import styles from './styles/overview.module.css'; 
 
+import styled from 'styled-components'
+
 
 const FlashcardSet = (props) => {
 
@@ -25,7 +27,7 @@ const FlashcardSet = (props) => {
     const constructPage = () => {
     
         
-        let bp = [['Flash-Cards', 'Deck A', 'fc.png', '/flashcards/A']];
+        let bp = [['Deck A','', 'flash-cards.png', '/flashcards/A']];
         let i = 1;
         
         while (i < numSets) {
@@ -33,7 +35,7 @@ const FlashcardSet = (props) => {
             var str = `Deck ${ascii}`
             var link = `/flashcards/${ascii}`
             
-            bp.push(['Flash-Cards', str, 'fc.png', link]);
+            bp.push([str, '', 'flash-cards.png', link]);
             i += 1;
         }
         
@@ -51,13 +53,24 @@ const FlashcardSet = (props) => {
     
     let btn = <a className={styles.link_inside} onClick={addSet}> Add More </a>;
     let arr = constructPage();
+
+    let overideStyling = {
+      marginTop: "20px" 
+    };
+    
+    let overrideWrapper = {
+        width: "59%"
+    };
     
     return (
         <div className="parent">
             <NavBar />        
-            <OverviewContainer basePageItems={arr} />
+            <OverviewContainer basePageItems={arr} style={overideStyling} styleWrapper={overrideWrapper} />
+                <div style={{height: "50px"}}> </div>
+
         </div>              
     )
 }
+
 
 export default FlashcardSet;

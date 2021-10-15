@@ -19,8 +19,8 @@ const Routes = () => {
     <Switch>
         <Route exact path={["/", "/home"]} component={App} />
          <Route path="/flashcards/:setID" component={FlashCard}/>
-        <Route path="/quiz" component={Quiz} />
-        <Route path="/eams" component={EAM} />
+        <Route path="/quiz/:setID" component={Quiz} />
+        <Route path="/eams/:setID" component={EAM} />
         <Route path="/fsets" component={FlashcardSet} />
     </Switch>
     </Router>

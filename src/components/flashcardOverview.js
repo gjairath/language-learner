@@ -10,13 +10,15 @@ import ToolBarComp from "./toolbar.js"
 const ContentContainer = (props) => {
 
 // componentDidUpdate + DidMount to check condition after render + changes
-    const {cards} = props;
+    const {cards, set} = props;
+    
+    
     
   return (
       <ContainerBelow>
           <WrapperBelow>
           
-              < Overview currentCards={cards}>
+              < Overview currentCards={cards} set={set}>
               </Overview>
           
           </WrapperBelow>
@@ -29,11 +31,13 @@ const Overview = (props) => {
 
     // God this shit was so hard to pull off.
     // TODO FIX EDGE CASES.
-    const {currentCards} = props;
+    const {currentCards, set} = props;
     const [loadedCards, setLoadedCards] = useState([]);
     const [query, setQuery] = useState(all_cards);
 
-    var all_cards = JSON.parse(localStorage.getItem('flashcards'));
+
+
+    var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));
     if (all_cards == null) {
         all_cards = [["", ""]];
         for (let i = 1; i < loadedCards.length; i++) {
@@ -47,7 +51,7 @@ const Overview = (props) => {
         for (let i = 0; i < 4; i++) {
             newOuter[i] = ["", ""];
         }    
-        localStorage.setItem('flashcards', JSON.stringify(newOuter));
+        localStorage.setItem(`flashcards-${set}`, JSON.stringify(newOuter));
     }
     
     useEffect(() => {
@@ -58,13 +62,13 @@ const Overview = (props) => {
                 // if there is user input or not
 
         if(loadedCards.length > 0) {
-            localStorage.setItem('currentCards', JSON.stringify(loadedCards));
+            localStorage.setItem(`currentCards-${set}`, JSON.stringify(loadedCards));
         }
 
     }, [loadedCards]);
 
     useEffect(() => {
-        const initCards = JSON.parse(localStorage.getItem('currentCards'));
+        const initCards = JSON.parse(localStorage.getItem(`currentCards-${set}`));
         if (initCards) {
             setLoadedCards(initCards);
         } else {
@@ -97,7 +101,7 @@ const Overview = (props) => {
             newOuter[id] = [newOuter[id][0], event.target.value];
         }
         
-        localStorage.setItem('flashcards', JSON.stringify(newOuter));
+        localStorage.setItem(`flashcards-${set}`, JSON.stringify(newOuter));
         setQuery(newOuter);
     }
         
@@ -108,7 +112,7 @@ const Overview = (props) => {
         all_cards[loadedCards.length] = ["", ""];
         setQuery(all_cards);
         const newOuter = Object.assign({}, all_cards);
-        localStorage.setItem('flashcards', JSON.stringify(newOuter));
+        localStorage.setItem(`flashcards-${set}`, JSON.stringify(newOuter));
     }
     
     const isEmptyObject = (obj) => {
@@ -144,8 +148,8 @@ const Overview = (props) => {
                  newOuter[i] = ["", ""];
              }       
         }
-        localStorage.setItem('flashcards', JSON.stringify(newOuter));
-        localStorage.setItem('currentCards', JSON.stringify(loadedCards));
+        localStorage.setItem(`flashcards-${set}`, JSON.stringify(newOuter));
+        localStorage.setItem(`currentCards-${set}`, JSON.stringify(loadedCards));
     }
 
     
@@ -190,11 +194,13 @@ const Overview = (props) => {
         }    
     }
     
+    
     // Utility for Tool-Bar at the bottom, reusable user-component.    
    let left_reset_button = <a href="#" onClick={reinit} style={{marginLeft: "30px"}} class="button">Reset all</a>;
    let right_more_btn = <a onClick={handleMoreCards} class="button">More</a>
-   let right_quiz_btn = <a href="/quiz" class="button">Quiz</a>
+   let right_quiz_btn = <a href={`/quiz/${set}`} class="button">Quiz</a>
    let right_pdf_btn = <a onClick={window.print} class="button">Pdf</a>
+   let right_back = <a href="/fsets" class="button">Back To Sets</a>
    
    
   return (
@@ -212,7 +218,7 @@ const Overview = (props) => {
                         <div className="text-content" ref={el => answerRefs.current[idx] = el} onClick={addAnimationBox}  onBlur={removeAnimationBox}>
                             <textarea data-id={idx} data-type='answer' onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
                         </div>
-                        <a className="button" data-id={idx} onClick={handleDelete}> x </a>
+                        <a className="button" data-id={idx} style={{marginTop: "8px", marginLeft:"15px"}} onClick={handleDelete}> x </a>
                     </li>;
                           })}
     </ul>
@@ -221,8 +227,10 @@ const Overview = (props) => {
             left = 
                 {[left_reset_button]} 
             right = 
-                {[right_more_btn, right_quiz_btn, right_pdf_btn]}
+                {[right_more_btn, right_quiz_btn, right_pdf_btn, right_back]}
     />
+    
+    <div style={{height: "15px"}}> </div>
 
   </div>
   );

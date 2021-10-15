@@ -6,13 +6,13 @@ import styles from './styles/overview.module.css';
 
 const OverviewContainer = (props) => {
 
-    const {basePageItems} = props;
+    const {basePageItems, style, styleWrapper} = props;
 
   return (
-      <ContainerBelow>
-          <WrapperBelow>
+      <ContainerBelow style={style}>
+          <WrapperBelow style={styleWrapper}>
           
-              < Overview basePageItems={basePageItems} >
+              < Overview basePageItems={basePageItems}>
               </Overview>
           
           </WrapperBelow>
@@ -24,11 +24,11 @@ const OverviewContainer = (props) => {
 const Overview = (props) => {
     // item 0 has the name, item 1 has the icon
 
-  const { basePageItems } = props;
+  const { basePageItems} = props;
     console.log(basePageItems);
 
   return (
-    <ul className={styles.listcontentwrapper}>
+    <ul className={styles.listcontentwrapper} >
         {basePageItems.map((item, idx) => {
             return <li className={styles.list_items}>
                         <div className={styles.text_content}> 
@@ -45,6 +45,9 @@ const Overview = (props) => {
                         </div>
                     </li>;
                           })}
+
+        <div style={{height: "60px"}}> </div>
+
     </ul>
   );
 };

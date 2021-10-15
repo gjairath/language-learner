@@ -13,6 +13,10 @@ import ToolBarComp from "./toolbar.js"
 
 const ContentContainer = (props) => {
 
+    const {setID} = props;
+    
+    console.log("Ye" + setID);
+
     const [active, setActive] = useState(1);
     
     const handleTab = (e) => {
@@ -28,9 +32,9 @@ const ContentContainer = (props) => {
           </OptionsWrapper>
           
           <FlashWrapper>
-                  {active == 0 && <Normal />} 
-                  {active == 1 && <Mcq />}
-                  {active == 2 && <Match />}
+                  {active == 0 && <Normal set={setID}/>} 
+                  {active == 1 && <Mcq set={setID}/>}
+                  {active == 2 && <Match set={setID}/>}
             </FlashWrapper>
       </ContainerBelow>
   )
@@ -40,7 +44,9 @@ const Normal = (props) => {
 
 // Handle case where quiz is loaded first.
 
-    var all_cards = JSON.parse(localStorage.getItem('flashcards'));    
+    const {set} = props;
+
+    var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     var length_questions = Object.keys(all_cards).length;
 
 
@@ -120,7 +126,8 @@ const Normal = (props) => {
         };
     });
 
-    
+       let right_more_btn = <a class="button" href="/fsets">flashcards</a>
+
   return (
     <div className={styles.flash_content}>
 
@@ -146,6 +153,15 @@ const Normal = (props) => {
                   <FaLongArrowAltRight/>
                 </a>
           </div>
+          
+                  <ToolBarComp 
+    left = 
+        {[]} 
+    right = 
+        {[right_more_btn]}
+    />
+              <div style={{height: "20px"}}> </div>
+
          </div>
     )
 }
@@ -159,8 +175,10 @@ const Mcq = (props) => {
     const [timer, setTimer] = useState(0);
     const [weight, setWeight] = useState(1);    
     
+    const {set} = props;
+    console.log(set);
     
-    const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
+    var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     const length_questions = Object.keys(all_cards).length;
     
     const get_question_options = (window) => {
@@ -228,8 +246,6 @@ const Mcq = (props) => {
         return () => clearTimeout(timeOutId);
       });
       
-      console.log(questionsObj);
-
     const reinit = (e) => {
         setIdx(0);
         setScore(0);
@@ -265,13 +281,16 @@ const Mcq = (props) => {
    let left_reset_button = <a onClick={reinit} style={{marginLeft: "30px"}} class="button">Try Again</a>;
    let left_easy = <a class="button" onClick={() => setWeight(weight - 1)} >Easier</a>;
    let left_hard = <a class="button" onClick={() => setWeight(weight + 1)}>Harder</a>;
-   let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
+   let right_more_btn = <a class="button" href="/fsets">flashcards</a>
  
    
   return (
   
    <div className={styles.flash_content}>      
+       <div style={{height: "25px"}}> </div>
+
         <div className={styles.question_title}>
+        
             Question {idx + 1} of {length_questions} [Winnings: {score}$, Difficulty: {weight}, Timer: {Math.ceil(10 / weight)} Seconds]
           </div>
           <div className={styles.question}>
@@ -287,7 +306,12 @@ const Mcq = (props) => {
           <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][3]][1]}</p>
           </div>
             
+                   <div style={{height: "10px"}}> </div>
+
             <Progress now={timer}/>
+
+
+       <div style={{height: "10px"}}> </div>
             
                 <ToolBarComp 
             left = 
@@ -295,6 +319,9 @@ const Mcq = (props) => {
             right = 
                 {[left_easy, left_hard, right_more_btn]}
             />
+            
+       <div style={{height: "25px"}}> </div>
+
             
     </div>
     )
@@ -321,11 +348,13 @@ const Match = (props) => {
     const [init, setInit] = useState(true);
 
 
-    const all_cards = JSON.parse(localStorage.getItem('flashcards'));   
+    const {set} = props;
+
+    var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     const length_questions = Object.keys(all_cards).length;
 
     var [all_buttons, setAllButtons] = useState(flatten(all_cards));
-    all_buttons = all_buttons.slice(0, 16);
+    all_buttons = all_buttons.slice(0, 28);
     all_buttons = shuffle(all_buttons);
 
     const reinit = (e) => {
@@ -391,7 +420,7 @@ const Match = (props) => {
 
         // Utility for Tool-Bar at the bottom, reusable user-component.    
    let left_reset_button = <a style={{marginLeft: "30px"}} onClick={reinit} class="button">Try Again</a>;
-   let right_more_btn = <a class="button" href="/flashcards">flashcards</a>
+   let right_more_btn = <a class="button" href="/fsets">flashcards</a>
    
   return (
    <div className={styles.matching_content}>
@@ -403,7 +432,7 @@ const Match = (props) => {
 
        {all_buttons.map((item, idx) => {
             return <a class="button" onClick={handleSubmission}
-                style={{height: "75px", width: "150px", marginLeft: "25px", fontSize:"19px", textTransform:"lowercase"}}>
+                style={{height: "75px", width: "150px", marginLeft: "25px", fontSize:"19px", textTransform:"lowercase", overflow:"hidden"}}>
                    {item}
                 </a>;
         })}
@@ -416,7 +445,9 @@ const Match = (props) => {
     right = 
         {[right_more_btn]}
     />
-            
+          
+              <div style={{height: "15px"}}> </div>
+  
     </div>
     )
 }
