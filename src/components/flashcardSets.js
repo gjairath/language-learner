@@ -27,7 +27,7 @@ const FlashcardSet = (props) => {
     const constructPage = () => {
     
         
-        let bp = [['Deck A','', 'flash-cards.png', '/flashcards/A']];
+        let bp = [['Deck A', '', 'flash-cards.png', '/flashcards/A']];
         let i = 1;
         
         while (i < numSets) {
@@ -62,10 +62,13 @@ const FlashcardSet = (props) => {
         width: "59%"
     };
     
+    console.log(arr);
+    
     return (
         <div className="parent">
             <NavBar />        
-            <OverviewContainer basePageItems={arr} style={overideStyling} styleWrapper={overrideWrapper} />
+            <OverviewContainer basePageItems={arr} style={overideStyling} styleWrapper={overrideWrapper} isDotted={true}
+                disabled={false}/>
                 <div style={{height: "50px"}}> </div>
 
         </div>              

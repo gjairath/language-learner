@@ -7,21 +7,30 @@ import OverviewContainer from "./components/Overview.js"
 
 import uniqid from "uniqid";
 
-class App extends Component {
-  constructor() {
-    super();
-  }
+const App = (props) => {
+    let num_decks = JSON.parse(localStorage.getItem(`totalSets`));    
+    let ma = ['Mnemonics', 'Visualize Things!', 'memory.png', '/eams/A']
+    
+    // dont remove this
+    ma.push("");
+    for (let i = 1; i < num_decks; i++) {
+        var ascii = String.fromCharCode(i + 97).toUpperCase();
+        var str = `${ascii}`
 
-  render() {
+        ma.push(str);
+    }
+    
+    console.log(ma);
     return (
         <div className="parent">
             <NavBar />        
             <OverviewContainer basePageItems={[ ['Flash-Cards', 'Review Your Cards!', 'fc.png', '/fsets'], 
-                                                ['Mnemonics', 'Visualize Things!', 'memory.png', '/eams/A'],
-                                                ['Quiz', 'Test Your Skills!', 'quiz.png', '/quiz/A'] ]}/>
+                                                ma,
+                                                ['Quiz', 'Test Your Skills!', 'quiz.png', '/quiz/A'] ]}
+                                                isDotted=  {false} 
+                                                disabled = {true}/>
         </div>              
     );
-  }
 }
 
 export default App;
