@@ -5,6 +5,7 @@ import FlashCard from "./components/flashCard.js"
 import Message from "./components/Message.js"
 import Quiz from "./components/Quiz.js"
 import EAM from "./components/Eam.js"
+import About from "./components/about.js"
 
 import FlashcardSet from "./components/flashcardSets.js"
 import {Flasher} from "react-universal-flash";
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route path="/quiz/:setID" component={Quiz} />
         <Route path="/eams/:setID" component={EAM} />
         <Route path="/fsets" component={FlashcardSet} />
+        <Route path="/about" component={About} />
     </Switch>
     </Router>
   );

@@ -1,0 +1,39 @@
+.listcontentwrapper{ /* the ul class */
+    list-style-type: none;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    
+    height: 100%;
+}
+
+.list_items{ /* the li items */
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    
+    display: flex;
+    justify-content: center;
+    
+    height: 1000px;
+}
+
+.text_content{  /* the stuff on the left titel, desc, link */
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    
+    padding-left: 42px;
+    padding-top: 25px;
+}
+
+.text_content > h1{
+    padding-bottom: 25px;
+}
+
+.img_content{
+    height: 300px;
+    background-color: transparent;
+    
+    margin-bottom: 55px;
+}

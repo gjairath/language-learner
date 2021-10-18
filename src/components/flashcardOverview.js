@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Nav } from 'react-bootstrap'
+import Dialog from 'react-bootstrap-dialog'
 
 import styled from 'styled-components'
 import './styles/flashcardOverview.css';
@@ -44,6 +45,7 @@ const Overview = (props) => {
             all_cards.push(["",""]);        
         }
     }
+
     
     const reinit = () => {
         setLoadedCards([0,1,2,3]);
@@ -52,7 +54,9 @@ const Overview = (props) => {
             newOuter[i] = ["", ""];
         }    
         localStorage.setItem(`flashcards-${set}`, JSON.stringify(newOuter));
-    }
+
+     }
+     
     
     useEffect(() => {
         // Save it but only if the length is more than 1.
@@ -195,8 +199,25 @@ const Overview = (props) => {
     }
     
     
+    const confirm = () => {
+        Dialog.dialog.show({
+          title: 'Delete All Flashcards?',
+          body: 'Are you sure you want to do this.',
+          actions: [
+            Dialog.CancelAction(),
+            Dialog.Action(
+                  'OK',
+                  () => reinit(),
+                  'btn-success'
+                )
+          ],
+          bsSize: 'small',
+        });   
+    }
+
+    
     // Utility for Tool-Bar at the bottom, reusable user-component.    
-   let left_reset_button = <a href="#" onClick={reinit} style={{marginLeft: "30px"}} class="button">Reset all</a>;
+   let left_reset_button = <a href="#" onClick={confirm} style={{marginLeft: "30px"}} class="button">Reset all</a>;
    let right_more_btn = <a onClick={handleMoreCards} class="button">More</a>
    let right_quiz_btn = <a href={`/quiz/${set}`} class="button">Quiz</a>
    let right_pdf_btn = <a onClick={window.print} class="button">Pdf</a>
@@ -207,6 +228,8 @@ const Overview = (props) => {
   
   <div className="list-content-wrapper">
     <ul>
+    
+    <Dialog ref={(el) => { Dialog.dialog = el }} />
 
         {loadedCards.map((item, idx) => {
   
@@ -225,9 +248,9 @@ const Overview = (props) => {
     
     <ToolBarComp 
             left = 
-                {[left_reset_button]} 
+                {[right_back]} 
             right = 
-                {[right_more_btn, right_quiz_btn, right_pdf_btn, right_back]}
+                {[right_more_btn, right_quiz_btn, right_pdf_btn, left_reset_button]}
     />
     
     <div style={{height: "15px"}}> </div>
