@@ -6,6 +6,7 @@ import {GiCardExchange} from 'react-icons/gi'
 import styled from 'styled-components'
 import {flash} from "react-universal-flash";
 
+import Dialog from 'react-bootstrap-dialog'
 
 import styles from './styles/quizOverview.module.css';
 import Progress from "./progress.js"
@@ -173,7 +174,10 @@ const Mcq = (props) => {
     const [score, setScore] = useState(0);
     const [idx, setIdx] = useState(0);
     const [timer, setTimer] = useState(0);
-    const [weight, setWeight] = useState(1);    
+    const [weight, setWeight] = useState(1);
+    
+    // I cant reuse score because of weight
+    const [correct, setCorrect] = useState(0);
     
     const {set} = props;
     
@@ -235,8 +239,31 @@ const Mcq = (props) => {
         }
     });
     
+        
+    const score_board = () => {
+        Dialog.dialog.show({
+          title: 'Scoreboard',
+          body: `Wins: ${correct} Losses: ${length_questions-correct} Winnings: ${score}$`,
+          actions: [
+            Dialog.CancelAction(),
+            Dialog.Action(
+                  'Restart',
+                  () => reinit(),
+                  'btn-success'
+                )
+          ],
+          bsSize: 'small',
+        });   
+    }
+
+    
     useEffect(() => {
-        if (idx + 1 === length_questions) {return;}
+        // Questions exhausted
+        if (idx + 1 === length_questions) {
+            score_board();
+            return;
+        }           
+        
         if (timer >= 100){
             setIdx(idx + 1);
             // higher penalty if u miss.
@@ -269,6 +296,7 @@ const Mcq = (props) => {
             setScore(score + (100 * weight));
             let sc = 100 * weight;
             flash(`+${sc}`, 350, "success");
+            setCorrect(correct + 1);
         } else {
             setScore(score - (100 * weight));
             flash(-100 * weight, 350, "dark");
@@ -288,7 +316,9 @@ const Mcq = (props) => {
    
   return (
   
-   <div className={styles.flash_content}>      
+   <div className={styles.flash_content}>    
+       <Dialog ref={(el) => { Dialog.dialog = el }} />
+  
        <div style={{height: "25px"}}> </div>
 
         <div className={styles.question_title}>
