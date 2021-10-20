@@ -176,10 +176,12 @@ const Mcq = (props) => {
     const [weight, setWeight] = useState(1);    
     
     const {set} = props;
-    console.log(set);
     
     var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     const length_questions = Object.keys(all_cards).length;
+    
+    
+    console.log(questionsObj)
     
     const get_question_options = (window) => {
               
@@ -251,7 +253,7 @@ const Mcq = (props) => {
         setScore(0);
         setTimer(0);
         setWeight(1);
-        get_question_options();
+        get_question_options(length_questions);
     }
     const handleTransition = (e) => {
     
