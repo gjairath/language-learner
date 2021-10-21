@@ -47,7 +47,7 @@ const Overview = (props) => {
                             <a className={styles.link_inside} href={item[3]}>Look Inside</a> 
 
                             <a className={styles.link_inside}>{item[4]}</a> 
-                            <a className={styles.link_inside} href={`/eams/${item[5]}`}>{item[5]}</a> 
+                            <a className={styles.link_inside}>{item[5]}</a> 
                             <a className={styles.link_inside} href={`/eams/${item[6]}`}>{item[6]}</a> 
                             <a className={styles.link_inside} href={`/eams/${item[7]}`}>{item[7]}</a> 
                             {item[4] == "" && more_div}

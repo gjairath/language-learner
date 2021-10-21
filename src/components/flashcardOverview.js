@@ -248,9 +248,9 @@ const Overview = (props) => {
     
     <ToolBarComp 
             left = 
-                {[right_back]} 
+                {[right_back, right_quiz_btn, right_pdf_btn]} 
             right = 
-                {[right_more_btn, right_quiz_btn, right_pdf_btn, left_reset_button]}
+                {[right_more_btn, left_reset_button]}
     />
     
     <div style={{height: "15px"}}> </div>

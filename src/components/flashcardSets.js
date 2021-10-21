@@ -24,18 +24,45 @@ const FlashcardSet = (props) => {
         return;
     }
     
-    const constructPage = () => {
-    
+    const deleteSet = (e) => {
+        let id = e.currentTarget.dataset.idx;
+       // setNumSets(numSets - 1);
+        console.log(id);
         
-        let bp = [['Deck A', '', 'flash-cards.png', '/flashcards/A']];
+        // delete the currentCards, flashcards, edited header(if it exists)
+        // the loop should handle the rest
+        
+        var ascii = String.fromCharCode(parseInt(id) + 97).toUpperCase();
+        console.log(ascii);
+        
+        if (localStorage.getItem(`currentCards-${ascii}`)) {
+            localStorage.removeItem(`currentCards-${ascii}`);
+        }
+
+        if (localStorage.getItem(`flashcards-${ascii}`)) {
+            localStorage.removeItem(`flashcards-${ascii}`);
+        }
+        
+        if (localStorage.getItem(`EditedHeader-${id}`)) {
+            localStorage.removeItem(`EditedHeader-${id}`);
+        }        
+        
+    }
+    
+    const constructPage = () => {
+        let btn = <a className={styles.link_inside} onClick={addSet}> Add More </a>;
         let i = 1;
+
+        let delete_btn = <a className={styles.link_inside2} data-idx={0} onClick={deleteSet}> Delete </a>;        
+        let bp = [['Deck A', '', 'flash-cards.png', '/flashcards/A', delete_btn]];
         
         while (i < numSets) {
             var ascii = String.fromCharCode(i + 97).toUpperCase();
             var str = `Deck ${ascii}`
             var link = `/flashcards/${ascii}`
             
-            bp.push([str, '', 'flash-cards.png', link]);
+            let delete_btn = <a className={styles.link_inside2} data-idx={i} onClick={deleteSet}> Delete </a>;        
+            bp.push([str, '', 'flash-cards.png', link, delete_btn]);
             i += 1;
         }
         
@@ -51,7 +78,6 @@ const FlashcardSet = (props) => {
     });
     
     
-    let btn = <a className={styles.link_inside} onClick={addSet}> Add More </a>;
     let arr = constructPage();
 
     let overideStyling = {
@@ -69,6 +95,7 @@ const FlashcardSet = (props) => {
             <NavBar />        
             <OverviewContainer basePageItems={arr} style={overideStyling} styleWrapper={overrideWrapper} isDotted={true}
                 disabled={false}/>
+
                 <div style={{height: "50px"}}> </div>
 
         </div>              

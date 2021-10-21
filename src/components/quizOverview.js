@@ -157,9 +157,9 @@ const Normal = (props) => {
           
                   <ToolBarComp 
     left = 
-        {[]} 
+        {[right_more_btn]} 
     right = 
-        {[right_more_btn]}
+        {[]}
     />
               <div style={{height: "20px"}}> </div>
 
@@ -175,6 +175,7 @@ const Mcq = (props) => {
     const [idx, setIdx] = useState(0);
     const [timer, setTimer] = useState(0);
     const [weight, setWeight] = useState(1);
+    const [over, setOver] = useState(false);
     
     // I cant reuse score because of weight
     const [correct, setCorrect] = useState(0);
@@ -184,8 +185,6 @@ const Mcq = (props) => {
     var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     const length_questions = Object.keys(all_cards).length;
     
-    
-    console.log(questionsObj)
     
     const get_question_options = (window) => {
               
@@ -238,6 +237,12 @@ const Mcq = (props) => {
             console.log("SWAG")
         }
     });
+
+    useEffect(() => {
+        if (over == true) {
+            score_board();        
+        }
+    }, [over]);
     
         
     const score_board = () => {
@@ -260,7 +265,6 @@ const Mcq = (props) => {
     useEffect(() => {
         // Questions exhausted
         if (idx + 1 === length_questions) {
-            score_board();
             return;
         }           
         
@@ -274,14 +278,19 @@ const Mcq = (props) => {
         const timeOutId = setTimeout(() => setTimer(timer + (weight*10)), 1000);
         return () => clearTimeout(timeOutId);
       });
+
       
     const reinit = (e) => {
         setIdx(0);
         setScore(0);
         setTimer(0);
         setWeight(1);
+        setCorrect(0);
+        setOver(false);
         get_question_options(length_questions);
     }
+
+
     const handleTransition = (e) => {
     
         // questionsObj's last value has the question on screen.
@@ -293,18 +302,22 @@ const Mcq = (props) => {
         
 
         if (all_cards[questionsObj[idx][4]][1] == e.currentTarget.textContent) {
+            setCorrect(correct + 1);
+
             setScore(score + (100 * weight));
             let sc = 100 * weight;
             flash(`+${sc}`, 350, "success");
-            setCorrect(correct + 1);
         } else {
             setScore(score - (100 * weight));
             flash(-100 * weight, 350, "dark");
         }
         
-        if (idx + 1 === length_questions) { return; }         
+        if (idx + 1 === length_questions) {
+            setOver(true);
+            return; 
+        }         
         setIdx(idx + 1);    
-    
+        
     }
     // 10, 5, 2.5, etc.
         // Utility for Tool-Bar at the bottom, reusable user-component.    
@@ -313,7 +326,6 @@ const Mcq = (props) => {
    let left_hard = <a class="button" onClick={() => setWeight(weight + 1)}>Harder</a>;
    let right_more_btn = <a class="button" href="/fsets">flashcards</a>
  
-   
   return (
   
    <div className={styles.flash_content}>    
@@ -347,9 +359,9 @@ const Mcq = (props) => {
             
                 <ToolBarComp 
             left = 
-                {[left_reset_button]} 
+                {[right_more_btn]} 
             right = 
-                {[left_easy, left_hard, right_more_btn]}
+                {[left_easy, left_hard, left_reset_button]}
             />
             
        <div style={{height: "25px"}}> </div>
@@ -378,6 +390,8 @@ const Match = (props) => {
     const [score, setScore] = useState(0);
     const [question, setQuestion] = useState(["", '', 'false']);
     const [init, setInit] = useState(true);
+    const [correct, setCorrect] = useState(0);
+    const [over, setOver] = useState(false);
 
 
     const {set} = props;
@@ -391,6 +405,8 @@ const Match = (props) => {
 
     const reinit = (e) => {
         setScore(0);
+        setCorrect(0);
+        setOver(false);
         setAllButtons(flatten(all_cards));
     }
     
@@ -409,7 +425,37 @@ const Match = (props) => {
         }
         return -1;
     }
+
     
+    
+    const score_board = () => {
+    
+        Dialog.dialog.show({
+          title: 'Scoreboard',
+          body: `Wins: ${correct} Losses: ${length_questions-correct} Winnings: ${score}$`,
+          actions: [
+            Dialog.CancelAction(),
+            Dialog.Action(
+                  'Restart',
+                  () => reinit(),
+                  'btn-success'
+                )
+          ],
+          bsSize: 'small',
+        });   
+    }
+    console.log(over);
+    useEffect(() => {
+    console.log(all_buttons.length)
+    if (all_buttons.length == 0) {
+        setOver(true);
+    }
+    });  
+    useEffect(() => {
+        if (over == true) {
+            score_board();        
+        }
+    }, [over]);    
     const process = (str) => {
         
         var res = str.replace(/\s+/g, "");
@@ -425,6 +471,7 @@ const Match = (props) => {
             
             if (answer == correctAnswer) {
                 setScore(score + 100);
+                setCorrect(correct + 1);
                 flash(`${question[0]} is ${answer}! +100`, 1450, "success");
                 let arr = [];
                 all_buttons.filter( (word) => {
@@ -440,6 +487,7 @@ const Match = (props) => {
                setAllButtons(arr);
 
             } else {
+                setCorrect(correct - 1);
                 setScore(score - 100);
                 flash(`${question[0]} is not ${answer}! -100`, 1450, "dark");
             }
@@ -449,15 +497,17 @@ const Match = (props) => {
             setQuestion([e.currentTarget.textContent, '',"true"]);        
         }
     };
+    
 
         // Utility for Tool-Bar at the bottom, reusable user-component.    
    let left_reset_button = <a style={{marginLeft: "30px"}} onClick={reinit} class="button">Try Again</a>;
    let right_more_btn = <a class="button" href="/fsets">flashcards</a>
-   
+
   return (
    <div className={styles.matching_content}>
-  {console.log(all_buttons)}
            <div className={styles.matching_question}>
+         <Dialog ref={(el) => { Dialog.dialog = el }} />
+
             <p style={{marginLeft: "25px"}}> {question[0] != "" && question[2] == 'true' && 'Question Picked: ' + question[0]} </p>
             <p> Winnings: {score}$ </p> 
           </div>
@@ -473,9 +523,9 @@ const Match = (props) => {
                         
         <ToolBarComp 
     left = 
-        {[left_reset_button]} 
+        {[right_more_btn]} 
     right = 
-        {[right_more_btn]}
+        {[left_reset_button]}
     />
           
               <div style={{height: "15px"}}> </div>
