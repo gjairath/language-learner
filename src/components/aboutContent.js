@@ -87,9 +87,11 @@ const Overview = (props) => {
                     </div>
     
                     <div className={styles.text_content_right}>
-                    <p> Learn those words in the same place with various forms of quizzes. </p> 
-                    <p> </p>
+                    <p> Learn those words in the same place with quizzes. </p> 
+                    <p> Multiple choice is one variant of the quizzes. </p>
                     <p> The difficulty can be increased or decreased. </p>
+                    <p> The score with each answer increases with difficulty. </p>
+                    <p> The score incurs a massive penalty if the timer runs out. </p>
                     </div>
                     
                 </div>
@@ -102,8 +104,8 @@ const Overview = (props) => {
                     </div>
     
                     <div className={styles.text_content_right}>
-                    <p> Matching is a variant of quizzes. </p> 
-                    <p> The questions shuffle each time after picking one, to ensure mastery. </p>
+                    <p> Matching is another variant of quizzes. </p> 
+                    <p> The questions shuffle each time after picking one to ensure mastery. </p>
                     </div>
                     
                 </div>                
