@@ -1,0 +1,32 @@
+.faq-title {
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
+    padding-bottom: 15px !important;
+    width: 40%;
+    
+}
+
+.faq-row{
+    padding: 10px;
+    margin-top: 25px;
+    margin-bottom: 55px;
+}
+
+.row-title{
+    font-size: 20px !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.row-content{
+    margin-top: 10px;
+    padding-left: 25px;
+}
+
+.row-content-text{
+    color: rgba(0, 0, 0, 0.7) !important;
+    margin-bottom: 5px;
+}
+
+a{
+    text-decoration: none;
+}
