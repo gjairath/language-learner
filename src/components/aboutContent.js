@@ -76,7 +76,7 @@ const Overview = (props) => {
                     </div>
     
                     <div className={styles.text_content_right}>
-                    <p> Review concepts with mouse or arrow keys (left, space, right). </p> 
+                    <p> Review concepts with mouse or arrow keys. </p> <p> (left, space, right) </p> 
                     </div>
                     
                 </div>             
@@ -88,10 +88,11 @@ const Overview = (props) => {
     
                     <div className={styles.text_content_right}>
                     <p> Learn those words in the same place with quizzes. </p> 
-                    <p> Multiple choice is one variant of the quizzes. </p>
                     <p> The difficulty can be increased or decreased. </p>
-                    <p> The score with each answer increases with difficulty. </p>
-                    <p> The score incurs a massive penalty if the timer runs out. </p>
+                    <p> The score increases with difficulty and incurs a massive penalty if the timer runs out. </p>
+                    <p> </p>
+                    
+                    <p> The timer can be stopped by making it easier. </p>
                     </div>
                     
                 </div>

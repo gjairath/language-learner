@@ -19,7 +19,7 @@ const App = (props) => {
 
         ma.push(str);
     }
-    
+ 
     console.log(ma);
     return (
         <div className="parent">
