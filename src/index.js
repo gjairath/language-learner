@@ -10,13 +10,6 @@ import './styles/navbar.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-var wwwhisper = require('connect-wwwhisper');
-
-var app = require('express');
-
-app.use(wwwhisper());
-
-
 ReactDOM.render(
   <React.StrictMode>
     <Routes />
