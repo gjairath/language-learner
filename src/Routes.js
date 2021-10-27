@@ -7,6 +7,7 @@ import Quiz from "./components/Quiz.js"
 import EAM from "./components/Eam.js"
 import About from "./components/about.js"
 import Faq from "./components/faq.js"
+import Learn from "./components/Learn.js"
 
 import FlashcardSet from "./components/flashcardSets.js"
 import {Flasher} from "react-universal-flash";
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route exact path={["/", "/home"]} component={App} />
          <Route path="/flashcards/:setID" component={FlashCard}/>
         <Route path="/quiz/:setID" component={Quiz} />
+        <Route path="/learn/:setID" component={Learn} />
         <Route path="/eams/:setID" component={EAM} />
         <Route path="/fsets" component={FlashcardSet} />
         <Route path="/about" component={About} />

@@ -25,6 +25,7 @@ const App = (props) => {
         <div className="parent">
             <NavBar />        
             <OverviewContainer basePageItems={[ ['Flash-Cards', 'Review Your Cards!', 'fc.png', '/fsets'], 
+                                                ['Learn', 'Learn Your Cards!', '', '/learn/A'],
                                                 ma,
                                                 ['Quiz', 'Test Your Skills!', 'quiz.png', '/quiz/A'] ]}
                                                 isDotted=  {false} 

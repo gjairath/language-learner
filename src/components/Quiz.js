@@ -5,7 +5,6 @@ import ContentContainer from "./quizOverview.js"
 
 const Quiz = ({ match, location }) => {
       const { params: { setID } } = match;
-    console.log(setID);
     
   return (
         <div className="parent">
