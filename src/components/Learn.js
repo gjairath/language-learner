@@ -24,7 +24,6 @@ const LearnContainer = (props) => {
 
     const {set} = props;
     
-    console.log("hey")
 
   return (
       <ContainerBelow>          
@@ -38,9 +37,9 @@ const LearnContainer = (props) => {
 
 const LearnContent = (props) => {
 
-    const [windowSize, setWindowSize] = useState(false);
     const [questionsObj, setQuestionsObj] = useState([]);
-
+    const [display, setDisplay] = useState([]);
+    const [windowSize, setWindowSize] = useState(false);
     const [idx, setIdx] = useState(0);
         
     const {set} = props;
@@ -48,12 +47,19 @@ const LearnContent = (props) => {
     var all_cards = JSON.parse(localStorage.getItem(`flashcards-${set}`));    
     const length_questions = Object.keys(all_cards).length;
     
+    const handleTransition = (e) => {        
+        
+        if (idx + 1 === length_questions) {
+            return; 
+        }         
+        setIdx(idx + 1);  
+    }    
     
-    
-    const get_question_options = (window) => {
+    const get_question_options = () => {
 
         // Use a module to get rid of all the boilerplate parsing.
-        
+      
+      var ret = [];
       var Dictionary = require("oxford-dictionary");
       
       var config = {
@@ -66,92 +72,88 @@ const LearnContent = (props) => {
     
       var lookup = dict.find("cheval");
     
-      lookup.then(function(res) {    
-          console.log(JSON.stringify(res, null, 4));
+      lookup.then(function(res) {
+
+          let base_json = res.results[0].lexicalEntries[0];
+
+          
+          let gender = base_json.entries[0].grammaticalFeatures[0].text;
+          let plural = base_json.entries[0].inflections[0].inflectedForm;
+          
+          let phrase_def = base_json.entries[0].senses;
+          
+//          console.log(phrase_def);
+          
+          ret[0] = gender;
+          ret[1] = plural;
+          let i = 2;
+          for (let item of phrase_def) {
+              
+              let obj = {};
+              obj['def'] = item.definitions[0];
+              
+              let examples_arr = []
+              for (let i of item.examples) {
+                  examples_arr.push(i.text);
+              }
+              obj['examples'] = examples_arr;
+
+              ret[i] = obj;
+              i += 1;              
+              // .defintiions[0]
+              // .examples[i].text
+          }
+          
+          display.push(ret[2].def);
+          
+          setDisplay(display);
       },
       function(err) {
           console.log(err);
       });
             
-        var questions = [];
-        while(questions.length < window){
-            var r = Math.floor(Math.random() * window);
-            if(questions.indexOf(r) === -1) questions.push(r);
-        }
-                
-        var results = [];
-        for (let idx of questions) {
-            // idx is the question number in all_Cards
-            var answers = [idx];
-            
-            while(answers.length < 4){
-                var r = Math.floor(Math.random() * window);
-                if(answers.indexOf(r) === -1 && r != idx) {
-                    answers.push(r);
-                }
-            }
-            
-            //  Durstenfeld shuffle
-            for (var i = answers.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var temp = answers[i];
-                answers[i] = answers[j];
-                answers[j] = temp;
-            }
-            
-            // push the IDX at the end to  keep it unshuffled, to display the question
-            answers.push(idx);
-            results.push(answers);
-        }
-        setQuestionsObj(results);
+      setQuestionsObj(ret);
+      
+      console.log(ret);      
+
     } 
-    
+
     useEffect(() => {
         if (windowSize == false) {
-            get_question_options(length_questions);
+            get_question_options();
             setWindowSize(true);
         }
     });
-    
-        
-    const reinit = (e) => {
-        setIdx(0);
-        get_question_options(length_questions);
+
+    const handleDisplay = () => {
+        console.log('ye');
+        let arr = [...display, 2];
+        setDisplay(arr);
     }
 
-
-    const handleTransition = (e) => {        
-        
-        if (idx + 1 === length_questions) {
-            return; 
-        }         
-        setIdx(idx + 1);    
-        
-    }
- 
   return (
   
    <div className={styles.flash_content}>
           <div className={styles.question}>
-          <i>{questionsObj.length != 0 && all_cards[questionsObj[idx][4]][0]}</i>
+          <i>{questionsObj.length != 0 && all_cards[idx][0]} [{questionsObj[0]} - {questionsObj[1]}]</i>
           </div>
        <div style={{height: "25px"}}> </div>   
           
           <div className={styles.question_options}>
-          <p className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][0]][1]}</p>
-          <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][1]][1]}</p>
-          <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][2]][1]}</p>
-          <p  className={styles.question_option} onClick={handleTransition}>{questionsObj.length != 0 && all_cards[questionsObj[idx][3]][1]}</p>
+                
+            {display.map((item, idx) => {
+
+                  return <p className={styles.question_option}>
+                      {display.length != 0 && display[idx]}
+                  </p>;
+            })}
+
+            <button onClick={handleTransition}> Got it </button>          
+            <button onClick={handleDisplay}> Show Another! </button>          
+
           </div>
-            
-                   <div style={{height: "10px"}}> </div>
 
-
-       <div style={{height: "10px"}}> </div>
-            
-            
-       <div style={{height: "25px"}}> </div>
-
+       <div style={{height: "50px"}}> </div>
             
     </div>
     )

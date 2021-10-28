@@ -77,9 +77,9 @@ const data = {
         {
             title: "Future Ideas",
             content: `I've got pretty good ideas like for example, odd-one-out, where you pick the one word that doesn't
-                      match the synonym. However, dictionary API's are expensive, so I haven't. Another one is adding more
-                      responsive layouts for mobiles/tablets. Statistics and a universal leaderboard, login functionality and
-                      deck-sharing and more. (Maybe later...)`,
+                      match the synonym. However, Oxford dictionaries API is the only option and pretty expensive, 
+                      so I haven't implemented that yet. Another one is adding more responsive layouts for mobiles/tablets. Statistics and a universal 
+                      leaderboard, login functionality and deck-sharing and more are pretty sick ideas too. (Maybe later...)`,
         },
     ],
 };
