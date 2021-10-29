@@ -62,8 +62,28 @@ svg{
     margin-left: 5px;
 }
 
-.question_option{
-    border-bottom: 0.0093rem solid rgba(0,0,0,0.1);
-    padding-bottom: 5px;
-    cursor: pointer;
+.list{
+}
+
+.list_item{
+    list-style-type: none;
+    border-top: 0.0093rem solid rgba(0,0,0,0.1);
+    
+    margin-top: 10px;
+    
+    padding-left: 23%;
+    padding-top: 15px;
+    
+	animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -60%, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
 }

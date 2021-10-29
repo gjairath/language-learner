@@ -52,7 +52,9 @@ const LearnContent = (props) => {
         if (idx + 1 === length_questions) {
             return; 
         }         
-        setIdx(idx + 1);  
+        setIdx(idx + 1);
+        
+        get_question_options();
     }    
     
     const get_question_options = () => {
@@ -69,7 +71,9 @@ const LearnContent = (props) => {
       };
   
       var dict = new Dictionary(config);
-    
+      
+      // try this word
+      var try_this_word = all_cards[idx][0];
       var lookup = dict.find("cheval");
     
       lookup.then(function(res) {
@@ -104,20 +108,22 @@ const LearnContent = (props) => {
               // .examples[i].text
           }
           
-          display.push(ret[2].def);
+          var newDisplay = [];
+          newDisplay.push([ret[2].def]);
           
-          setDisplay(display);
+          setDisplay(newDisplay);
       },
       function(err) {
+          // we failed
           console.log(err);
+          
+          // try again with a new word
+          handleTransition();
       });
             
       setQuestionsObj(ret);
-      
-      console.log(ret);      
-
-    } 
-
+    }
+    
     useEffect(() => {
         if (windowSize == false) {
             get_question_options();
@@ -126,11 +132,49 @@ const LearnContent = (props) => {
     });
 
     const handleDisplay = () => {
-        console.log('ye');
-        let arr = [...display, 2];
-        setDisplay(arr);
-    }
+    
+        // this is probably an "overthinking" way of doing it 
+        // but my expierence with react is limited
+        // so no fancy pants one liner solution here 
+    
+        let current_idx = display.length - 1;
+        
+        if (current_idx < 0){
+            current_idx = 0;
+        }
+        
+        console.log(current_idx);
+        
+        let total_examples = questionsObj[current_idx + 2].examples.length;
+        
 
+        let current_example_ctr = display[current_idx].length - 1;
+        
+
+        var newDisplay = display.slice();
+        
+        if (total_examples == current_example_ctr) {
+            // we have exhausted this option, update it
+            current_idx += 1;
+            newDisplay = [...newDisplay, []];
+            
+            if (questionsObj[current_idx + 2] == null){
+                return;
+            }
+            
+            newDisplay[current_idx].push(questionsObj[current_idx + 2].def);            
+        } else {
+            newDisplay[current_idx].push(questionsObj[current_idx + 2].examples[current_example_ctr]);
+        }
+        
+        setDisplay(newDisplay);
+    }
+    
+// wtf is this shit lmao.
+    // what is life
+    // maybe i should use conditional renders but brute force is the best force.
+    // plus the API only ever fetches so many definitions.
+    
   return (
   
    <div className={styles.flash_content}>
@@ -143,9 +187,14 @@ const LearnContent = (props) => {
                 
             {display.map((item, idx) => {
 
-                  return <p className={styles.question_option}>
-                      {display.length != 0 && display[idx]}
-                  </p>;
+                  return <ul className={styles.list}>
+                      <p> {display.length != 0 && display[idx][0]} </p>
+                      
+                      {display[idx].map((item, i) => {
+                              return <li className={styles.list_item}> {i+1 < display[idx].length && display[idx][i+1]} </li>;
+                            })}
+                         </ul> 
+                  
             })}
 
             <button onClick={handleTransition}> Got it </button>          
