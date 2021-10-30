@@ -220,8 +220,15 @@ const LearnContent = (props) => {
               <p> Consider changing it. (<a href="/about" style={{textDecoration: `none`}}>Guide</a>)</p>
           </i>
         }
-        {console.log(questionsObj)}
-        {questionsObj.length > 0 &&
+
+
+        {questionsObj.length > 0 && idx == 0 &&
+          <i>
+              {all_cards[0][0]} [{questionsObj[0]} - {questionsObj[1]}]
+          </i>
+            }
+
+        {questionsObj.length > 0 && idx !=0 &&
           <i>
               {all_cards[idx-1][0]} [{questionsObj[0]} - {questionsObj[1]}]
           </i>

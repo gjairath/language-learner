@@ -11,7 +11,7 @@
     border-bottom: 0.093rem solid rgba(0,0,0,0.2);
     
     display: flex;
-    height: 35%;
+    height: 40%;
 }
 
 
@@ -38,10 +38,10 @@
 }
 
 .img_content{
-    max-height: 80%;
+    max-height: 85%;
     max-width: 150px; /* heh */
 
-    height: 95px;
+    height: 105px;
     width: 115px;
     
     background-color: transparent;
@@ -51,6 +51,7 @@
     color: palevioletred;
     cursor: pointer;
     text-decoration: none;
+    margin-top: auto;
 }
 
 .link_inside2{
@@ -63,4 +64,8 @@
 .links{
     display: flex;
     gap: 38px;
+}
+
+.btn-outline-secondary {
+    color: palevioletred !important;
 }

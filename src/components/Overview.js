@@ -1,5 +1,5 @@
-import React from 'react'
-import { Nav } from 'react-bootstrap'
+import React, { useState } from "react";
+import { Nav, Dropdown, DropdownButton } from 'react-bootstrap'
 import  EditableHeader  from "./EditableHeader.js"
 
 import styled from 'styled-components'
@@ -32,7 +32,11 @@ const Overview = (props) => {
         
     const { basePageItems, isDotted, disabled} = props;
     
-    let more_div = <div className = {styles.link_inside}> More...TBD </div>
+    const [dropDownVal, setDropDownVal] = useState("Deck A");
+    
+    console.log(basePageItems);
+    console.log(dropDownVal)
+    // the 7th item is a wildcard entry its a scrolly 
 
   return (
     <ul className={styles.listcontentwrapper} >
@@ -41,16 +45,27 @@ const Overview = (props) => {
                         <div className={styles.text_content}> 
 
                             <EditableHeader initVal={item[0]} id={idx} dotted={isDotted} disabled={disabled}/>
-                            
+
                             <p> {item[1]} </p> 
                             <div className={styles.links}>
-                            <a className={styles.link_inside} href={item[3]}>Look Inside</a> 
+                            <a className={styles.link_inside} href={item[3] + "/" + dropDownVal[5]}>Look Inside</a> 
 
                             <a className={styles.link_inside}>{item[4]}</a> 
                             <a className={styles.link_inside}>{item[5]}</a> 
-                            <a className={styles.link_inside} href={`/eams/${item[6]}`}>{item[6]}</a> 
-                            <a className={styles.link_inside} href={`/eams/${item[7]}`}>{item[7]}</a> 
-                            {item[4] == "" && more_div}
+
+                            {item[7] != undefined && 
+                            <DropdownButton className={styles.dropdown_link} 
+                            variant="outline-secondary" size='sm' 
+                            id="dropdown-basic-button" title={dropDownVal}>
+                                {item[7].map((item, idx) => {
+                                 return <Dropdown.Item onClick={(e) => setDropDownVal(e.target.textContent)}>Deck {item}</Dropdown.Item>
+
+                                    })}
+                            </DropdownButton>
+
+                            
+                            }                                                        
+
                             </div>
                         </div>
                         <div className={styles.picture_content}> 

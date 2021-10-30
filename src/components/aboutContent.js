@@ -64,7 +64,43 @@ const Overview = (props) => {
                 </div>                
 
         </li>;         
+        
+        <li className={styles.list_items}>
+                <h1> Learn </h1>
+                
+                <div className={styles.text_wrapper}>
+                
+                    <div className={styles.text_content_left}>
+                        <img className={styles.img_content} src="/images/about_example7.png"/>
+                    </div>
+    
+                    <div className={styles.text_content_right}>
+                    <p> WIP. </p> 
+                    </div>
+                    
+                </div>                
+                
+ 
+         </li>
 
+        <li className={styles.list_items}>
+                <h1> Mnemonics </h1>
+                
+                <div className={styles.text_wrapper}>
+                
+                    <div className={styles.text_content_left}>
+                        <img className={styles.img_content} src="/images/about_example7.png"/>
+                    </div>
+    
+                    <div className={styles.text_content_right}>
+                    <p> TO BE DONE. </p> 
+                    </div>
+                    
+                </div>                
+                
+ 
+         </li>
+         
         <li className={styles.list_items}>
                 <h1> Quiz </h1>
 
@@ -112,24 +148,6 @@ const Overview = (props) => {
                 </div>                
                 
             </li>;        
-            
-        <li className={styles.list_items}>
-                <h1> Mnemonics </h1>
-                
-                <div className={styles.text_wrapper}>
-                
-                    <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example7.png"/>
-                    </div>
-    
-                    <div className={styles.text_content_right}>
-                    <p> TO BE DONE. </p> 
-                    </div>
-                    
-                </div>                
-                
- 
-         </li>
  
     <div style={{height: "60px"}}> </div>
 
