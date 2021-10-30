@@ -65,7 +65,7 @@ const Overview = (props) => {
 
         </li>;         
         
-        <li className={styles.list_items}>
+        <li id="learn" className={styles.list_items}>
                 <h1> Learn </h1>
                 
                 <div className={styles.text_wrapper}>

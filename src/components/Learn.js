@@ -217,7 +217,7 @@ const LearnContent = (props) => {
         {questionsObj.length == 0 && idx != 0 &&
           <i>
               {all_cards[idx-1][0]} was not found in the Dictionary.
-              <p> Consider changing it. (<a href="/about" style={{textDecoration: `none`}}>Guide</a>)</p>
+              <p> Consider changing it. (<a href="/about#learn" style={{textDecoration: `none`}}>Guide</a>)</p>
           </i>
         }
 
