@@ -65,8 +65,8 @@ const LearnContent = (props) => {
       var Dictionary = require("oxford-dictionary");
       
       var config = {
-        app_id : "bdb00920",
-        app_key : "1847085a4095260be60c932963766b66",
+        app_id : "53cc5cfd",
+        app_key : "87e49c9fedbd3884d923f8a043c75afb",
         source_lang : "fr"
       };
   
@@ -74,15 +74,36 @@ const LearnContent = (props) => {
       
       // try this word
       var try_this_word = all_cards[idx][0];
-      var lookup = dict.find("cheval");
-    
+      console.log(try_this_word);
+      var lookup = null;
+      
+      try {
+          lookup = dict.find(try_this_word);
+        } catch(e){
+            
+        }
       lookup.then(function(res) {
+          console.log(res);
 
           let base_json = res.results[0].lexicalEntries[0];
 
           
-          let gender = base_json.entries[0].grammaticalFeatures[0].text;
-          let plural = base_json.entries[0].inflections[0].inflectedForm;
+          let gender = "No Gender";
+          
+          try{
+              gender = base_json.entries[0].grammaticalFeatures[0].text;
+          } catch (e) {
+              console.log(e);
+          }
+          let plural = "No Plural";
+          
+          try {
+              plural = base_json.entries[0].inflections[0].inflectedForm;          
+          } catch (e) {
+              console.log(e);
+              //setIdx(idx + 1);
+              
+          }
           
           let phrase_def = base_json.entries[0].senses;
           
@@ -96,9 +117,13 @@ const LearnContent = (props) => {
               let obj = {};
               obj['def'] = item.definitions[0];
               
-              let examples_arr = []
-              for (let i of item.examples) {
-                  examples_arr.push(i.text);
+              let examples_arr = [];
+              try {
+                  for (let i of item.examples) {
+                      examples_arr.push(i.text);
+                  }
+              } catch (e) {
+                console.log(e);                  
               }
               obj['examples'] = examples_arr;
 
@@ -118,8 +143,12 @@ const LearnContent = (props) => {
           console.log(err);
           
           // try again with a new word
-          handleTransition();
-      });
+            setQuestionsObj([]);
+            setDisplay([]);
+            setIdx(idx + 1);
+            return;
+            
+        });
             
       setQuestionsObj(ret);
     }
@@ -130,8 +159,13 @@ const LearnContent = (props) => {
             setWindowSize(true);
         }
     });
+    
 
     const handleDisplay = () => {
+    
+        if(questionsObj == undefined){
+            return;
+        }
     
         // this is probably an "overthinking" way of doing it 
         // but my expierence with react is limited
@@ -143,7 +177,7 @@ const LearnContent = (props) => {
             current_idx = 0;
         }
         
-        console.log(current_idx);
+        console.log(questionsObj);
         
         let total_examples = questionsObj[current_idx + 2].examples.length;
         
@@ -179,7 +213,20 @@ const LearnContent = (props) => {
   
    <div className={styles.flash_content}>
           <div className={styles.question}>
-          <i>{questionsObj.length != 0 && all_cards[idx][0]} [{questionsObj[0]} - {questionsObj[1]}]</i>
+
+        {questionsObj.length == 0 && idx != 0 &&
+          <i>
+              {all_cards[idx-1][0]} was not found in the Dictionary.
+              <p> Consider changing it. (<a href="/about" style={{textDecoration: `none`}}>Guide</a>)</p>
+          </i>
+        }
+        {console.log(questionsObj)}
+        {questionsObj.length > 0 &&
+          <i>
+              {all_cards[idx-1][0]} [{questionsObj[0]} - {questionsObj[1]}]
+          </i>
+            }
+
           </div>
        <div style={{height: "25px"}}> </div>   
           
