@@ -75,7 +75,7 @@ const Overview = (props) => {
                     </div>
     
                     <div className={styles.text_content_right}>
-                    <p> WIP. </p> 
+                    <p> WIP. [Work In Progress]. </p> 
                     </div>
                     
                 </div>                
@@ -94,6 +94,7 @@ const Overview = (props) => {
     
                     <div className={styles.text_content_right}>
                     <p> TO BE DONE. </p> 
+                    <p> Note to self: This requires a database and other stuff beyond my technical expertise as of now. </p>
                     </div>
                     
                 </div>                
