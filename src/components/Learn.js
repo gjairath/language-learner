@@ -1,7 +1,6 @@
 //Libraries
-import React, { useState, useEffect, useRef } from "react";
-import { FaLongArrowAltRight, FaLongArrowAltLeft } from 'react-icons/fa';
-import {GiCardExchange} from 'react-icons/gi'
+import React, { useState, useEffect} from "react";
+
 import styled from 'styled-components'
 
 //My Files
@@ -154,7 +153,7 @@ const LearnContent = (props) => {
     }
     
     useEffect(() => {
-        if (windowSize == false) {
+        if (windowSize === false) {
             get_question_options();
             setWindowSize(true);
         }
@@ -163,7 +162,7 @@ const LearnContent = (props) => {
 
     const handleDisplay = () => {
     
-        if(questionsObj == undefined){
+        if(questionsObj === undefined){
             return;
         }
     
@@ -187,12 +186,12 @@ const LearnContent = (props) => {
 
         var newDisplay = display.slice();
         
-        if (total_examples == current_example_ctr) {
+        if (total_examples === current_example_ctr) {
             // we have exhausted this option, update it
             current_idx += 1;
             newDisplay = [...newDisplay, []];
             
-            if (questionsObj[current_idx + 2] == null){
+            if (questionsObj[current_idx + 2] === null){
                 return;
             }
             
@@ -214,7 +213,7 @@ const LearnContent = (props) => {
    <div className={styles.flash_content}>
           <div className={styles.question}>
 
-        {questionsObj.length == 0 && idx != 0 &&
+        {questionsObj.length === 0 && idx !== 0 &&
           <i>
               {all_cards[idx-1][0]} was not found in the Dictionary.
               <p> Consider changing it. (<a href="/about#learn" style={{textDecoration: `none`}}>Guide</a>)</p>
@@ -222,13 +221,13 @@ const LearnContent = (props) => {
         }
 
 
-        {questionsObj.length > 0 && idx == 0 &&
+        {questionsObj.length > 0 && idx === 0 &&
           <i>
               {all_cards[0][0]} [{questionsObj[0]} - {questionsObj[1]}]
           </i>
             }
 
-        {questionsObj.length > 0 && idx !=0 &&
+        {questionsObj.length > 0 && idx !==0 &&
           <i>
               {all_cards[idx-1][0]} [{questionsObj[0]} - {questionsObj[1]}]
           </i>
@@ -242,7 +241,7 @@ const LearnContent = (props) => {
             {display.map((item, idx) => {
 
                   return <ul className={styles.list}>
-                      <p> {display.length != 0 && display[idx][0]} </p>
+                      <p> {display.length !== 0 && display[idx][0]} </p>
                       
                       {display[idx].map((item, i) => {
                               return <li className={styles.list_item}> {i+1 < display[idx].length && display[idx][i+1]} </li>;

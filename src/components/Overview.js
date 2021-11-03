@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Nav, Dropdown, DropdownButton } from 'react-bootstrap'
+import { Dropdown, DropdownButton } from 'react-bootstrap'
 import  EditableHeader  from "./EditableHeader.js"
 
 import styled from 'styled-components'
@@ -50,10 +50,10 @@ const Overview = (props) => {
                             <div className={styles.links}>
                             <a className={styles.link_inside} href={item[3] + "/" + dropDownVal[5]}>Look Inside</a> 
 
-                            <a className={styles.link_inside}>{item[4]}</a> 
-                            <a className={styles.link_inside}>{item[5]}</a> 
+                            <div className={styles.link_inside}>{item[4]}</div> 
+                            <div className={styles.link_inside}>{item[5]}</div> 
 
-                            {item[7] != undefined && 
+                            {item[7] !== undefined && 
                             <DropdownButton className={styles.dropdown_link} 
                             variant="outline-secondary" size='sm' 
                             id="dropdown-basic-button" title={dropDownVal}>
@@ -69,7 +69,7 @@ const Overview = (props) => {
                             </div>
                         </div>
                         <div className={styles.picture_content}> 
-                            <img className={styles.img_content} src={"/images/" + item[2]} /> 
+                            <img className={styles.img_content} alt={item[1] + " image"} src={"/images/" + item[2]} /> 
                         </div>
                     </li>;
                           })}

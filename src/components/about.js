@@ -1,11 +1,10 @@
 // About.js
 
-import React, { Component } from "react";
+import React from "react";
 
 import NavBar from "./navbar.js";
 import AboutContent from "./aboutContent.js"
 
-import uniqid from "uniqid";
 
 const About = (props) => {
 

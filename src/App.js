@@ -1,11 +1,10 @@
 // App.js
 
-import React, { Component } from "react";
+import React from "react";
 
 import NavBar from "./components/navbar.js";
 import OverviewContainer from "./components/Overview.js"
 
-import uniqid from "uniqid";
 
 const App = (props) => {
     let num_decks = JSON.parse(localStorage.getItem(`totalSets`));

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { Nav } from 'react-bootstrap'
 import Dialog from 'react-bootstrap-dialog'
 
 import styled from 'styled-components'
@@ -34,7 +33,6 @@ const Overview = (props) => {
     // TODO FIX EDGE CASES.
     const {currentCards, set} = props;
     const [loadedCards, setLoadedCards] = useState([]);
-    const [query, setQuery] = useState(all_cards);
 
 
 
@@ -45,6 +43,7 @@ const Overview = (props) => {
             all_cards.push(["",""]);        
         }
     }
+    const [query, setQuery] = useState(all_cards);
 
     
     const reinit = () => {
@@ -57,7 +56,7 @@ const Overview = (props) => {
 
      }
      
-    
+     
     useEffect(() => {
         // Save it but only if the length is more than 1.
             // This is safe because the default state has 3 cards.          
@@ -66,19 +65,23 @@ const Overview = (props) => {
                 // if there is user input or not
 
         if(loadedCards.length > 0) {
+        // eslint-disable-next-line
             localStorage.setItem(`currentCards-${set}`, JSON.stringify(loadedCards));
         }
 
-    }, [loadedCards]);
+    }, [loadedCards]); 
+    
 
+// eslint-disable-line react-hooks/exhaustive-deps
     useEffect(() => {
+    // eslint-disable-next-line
         const initCards = JSON.parse(localStorage.getItem(`currentCards-${set}`));
         if (initCards) {
             setLoadedCards(initCards);
         } else {
             setLoadedCards(currentCards);
         }
-    }, [currentCards]);
+    }, [currentCards]); 
 
     // Set a timeout so this function isn't called too many times.
         // Credit: https://stackoverflow.com/questions/53071774/reactjs-delay-onchange-while-typing
@@ -140,7 +143,7 @@ const Overview = (props) => {
         const newOuter = {};
         let new_idx = 0;
         for (const old_idx in all_cards) {
-            if (new_idx == loadedCards.length) {
+            if (new_idx === loadedCards.length) {
                 break;
             }
             newOuter[new_idx] = all_cards[old_idx];
@@ -171,13 +174,13 @@ const Overview = (props) => {
         
         console.log(type);
         
-        if (type == undefined || id == undefined) {
+        if (type === undefined || id === undefined) {
             return;
         }
         
-        if (type == 'question'){        
+        if (type === 'question'){        
             answerRefs.current[id].classList.add('move-box');
-        } else if (type == 'answer'){
+        } else if (type === 'answer'){
             questionRefs.current[id].classList.add('move-box');
         }
     }
@@ -186,14 +189,14 @@ const Overview = (props) => {
         const type = e.target.dataset.type;
         const id = e.target.dataset.id;
         
-        if (type == undefined || id == undefined) {
+        if (type === undefined || id === undefined) {
         // sometimes when u dont click the text-area this shit happens.
             return;
         }
         
-        if (type == 'question'){        
+        if (type === 'question'){        
             answerRefs.current[id].classList.remove('move-box');
-        } else if (type == 'answer') {
+        } else if (type === 'answer') {
             questionRefs.current[id].classList.remove('move-box');
         }    
     }
@@ -217,10 +220,11 @@ const Overview = (props) => {
 
     
     // Utility for Tool-Bar at the bottom, reusable user-component.    
+    // eslint-disable-next-line
    let left_reset_button = <a href="#" onClick={confirm} style={{marginLeft: "30px"}} class="button">Reset all</a>;
-   let right_more_btn = <a onClick={handleMoreCards} class="button">More</a>
+   let right_more_btn = <a href="#tb" onClick={handleMoreCards} class="button">More</a>
    let right_quiz_btn = <a href={`/quiz/${set}`} class="button">Quiz</a>
-   let right_pdf_btn = <a onClick={window.print} class="button">Pdf</a>
+   let right_pdf_btn = <a href="#tb" onClick={window.print} class="button">Pdf</a>
    let right_back = <a href="/fsets" class="button">Back To Sets</a>
    
    
@@ -241,19 +245,19 @@ const Overview = (props) => {
                         <div className="text-content" ref={el => answerRefs.current[idx] = el} onClick={addAnimationBox}  onBlur={removeAnimationBox}>
                             <textarea data-id={idx} data-type='answer' onChange={handleChange} value={all_cards[idx][1]}> </textarea> 
                         </div>
-                        <a className="button" data-id={idx} style={{marginTop: "8px", marginLeft:"15px"}} onClick={handleDelete}> x </a>
+                        <div className="button" data-id={idx} style={{marginTop: "8px", marginLeft:"15px"}} onClick={handleDelete}> x </div>
                     </li>;
                           })}
     </ul>
     
-    <ToolBarComp 
+    <ToolBarComp
             left = 
                 {[right_back, right_quiz_btn, right_pdf_btn]} 
             right = 
                 {[right_more_btn, left_reset_button]}
     />
     
-    <div style={{height: "15px"}}> </div>
+    <div id="tb" style={{height: "15px"}}> </div>
 
   </div>
   );

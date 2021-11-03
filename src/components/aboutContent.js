@@ -31,7 +31,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example1.png"/>
+                        <img className={styles.img_content} alt="Flashcard Tutorial" src="/images/about_example1.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -44,7 +44,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example2.png"/>
+                        <img className={styles.img_content} alt="Flashcard Tutorial" src="/images/about_example2.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -55,7 +55,7 @@ const Overview = (props) => {
                 
                 <div className={styles.text_wrapper}>
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example3.png"/>
+                        <img className={styles.img_content} alt="Flashcard Tutorial" src="/images/about_example3.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -71,7 +71,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example7.png"/>
+                        <img className={styles.img_content} alt="Learn Tutorial" src="/images/about_example7.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -89,7 +89,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example7.png"/>
+                        <img className={styles.img_content} alt="Mnemonics Tutorial" src="/images/about_example7.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -109,7 +109,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example6.png"/>
+                        <img className={styles.img_content} alt="Quiz Tutorial"  src="/images/about_example6.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -120,7 +120,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example4.png"/>
+                        <img className={styles.img_content} alt="Quiz Tutorial" src="/images/about_example4.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>
@@ -138,7 +138,7 @@ const Overview = (props) => {
                 <div className={styles.text_wrapper}>
                 
                     <div className={styles.text_content_left}>
-                        <img className={styles.img_content} src="/images/about_example5.png"/>
+                        <img className={styles.img_content} alt="Quiz Tutorial" src="/images/about_example5.png"/>
                     </div>
     
                     <div className={styles.text_content_right}>

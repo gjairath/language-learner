@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 
 import  EditableForm  from "./EditableForm.js"
 
@@ -16,7 +16,7 @@ const EditableHeader = (props) => {
     
     let style = {maxWidth: "15ch", overflow: "hidden", textOverflow:"clip"};
     
-    if (dotted == true) {
+    if (dotted === true) {
         style = {
             maxWidth: "15ch", 
             overflow: "hidden",
@@ -51,12 +51,12 @@ const EditableHeader = (props) => {
   
         e.preventDefault();
         
-        let id = e.currentTarget.dataset.id;
+//        let id = e.currentTarget.dataset.id;
         setValue(e.currentTarget.value);
      }
 
 
-    if (isEditing && disabled == false) {
+    if (isEditing && disabled === false) {
         return (
     <div>
       <EditableForm save={onSave} cancel={onCancel}>
@@ -69,7 +69,7 @@ const EditableHeader = (props) => {
     }
 
   return (
-    <h1 onClick={Edit} style={style} > {disabled == true && initVal} {disabled == false && value} </h1>
+    <h1 onClick={Edit} style={style} > {disabled === true && initVal} {disabled === false && value} </h1>
   );
 };
 

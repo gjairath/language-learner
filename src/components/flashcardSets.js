@@ -2,13 +2,10 @@
 // This is reusing the component Overview.js because I'm lazy.
 
 import React, { useState, useEffect } from "react";
-import uniqid from "uniqid";
 
 import NavBar from "./navbar.js";
 import OverviewContainer from "./Overview.js"
 import styles from './styles/overview.module.css'; 
-
-import styled from 'styled-components'
 
 
 const FlashcardSet = (props) => {
@@ -50,10 +47,11 @@ const FlashcardSet = (props) => {
     }
     
     const constructPage = () => {
-        let btn = <a className={styles.link_inside} onClick={addSet}> Add More </a>;
+    // this below id href is brilliant ngl
+        let btn = <a href="#tbf" id="tbf" className={styles.link_inside} onClick={addSet}> Add More </a>;
         let i = 1;
 
-        let delete_btn = <a className={styles.link_inside2} data-idx={0} onClick={deleteSet}> Delete </a>;        
+        let delete_btn = <div className={styles.link_inside2} data-idx={0} onClick={deleteSet}> Delete </div>;        
         let bp = [['Deck A', '', 'flash-cards.png', '/flashcards/A', delete_btn]];
         
         while (i < numSets) {
@@ -61,7 +59,7 @@ const FlashcardSet = (props) => {
             var str = `Deck ${ascii}`
             var link = `/flashcards/${ascii}`
             
-            let delete_btn = <a className={styles.link_inside2} data-idx={i} onClick={deleteSet}> Delete </a>;        
+            let delete_btn = <div className={styles.link_inside2} data-idx={i} onClick={deleteSet}> Delete </div>;        
             bp.push([str, '', 'flash-cards.png', link, delete_btn]);
             i += 1;
         }
