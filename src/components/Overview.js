@@ -34,14 +34,13 @@ const Overview = (props) => {
     
     const [dropDownVal, setDropDownVal] = useState("Deck A");
     
-    console.log(basePageItems);
-    console.log(dropDownVal)
     // the 7th item is a wildcard entry its a scrolly 
 
   return (
     <ul className={styles.listcontentwrapper} >
         {basePageItems.map((item, idx) => {
-            return <li className={styles.list_items}>
+
+            return item[0] ? <li className={styles.list_items}>
                         <div className={styles.text_content}> 
 
                             <EditableHeader initVal={item[0]} id={idx} dotted={isDotted} disabled={disabled}/>
@@ -71,7 +70,7 @@ const Overview = (props) => {
                         <div className={styles.picture_content}> 
                             <img className={styles.img_content} alt={item[1] + " image"} src={"/images/" + item[2]} /> 
                         </div>
-                    </li>;
+                    </li> : "";
                           })}
 
         <div style={{height: "60px"}}> </div>
