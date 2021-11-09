@@ -8,8 +8,8 @@ import {flash} from "react-universal-flash";
 import Dialog from 'react-bootstrap-dialog'
 
 import styles from '../pages/styles/quizOverview.module.css';
-import Progress from "../components/progress.js"
-import ToolBarComp from "../components/toolbar.js"
+import Progress from "../components/Progress.js"
+import ToolBarComp from "../components/Toolbar.js"
 
 const ContentContainer = (props) => {
 

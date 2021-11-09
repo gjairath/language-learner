@@ -1,6 +1,6 @@
 import React from "react";
 
-import NavBar from "../components/navbar.js"
+import NavBar from "../components/Navbar.js"
 import ContentContainer from "./quizOverview.js"
 
 const Quiz = ({ match, location }) => {

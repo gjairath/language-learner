@@ -5,7 +5,7 @@ import Dialog from 'react-bootstrap-dialog'
 import styled from 'styled-components'
 import '../pages/styles/flashcardOverview.css';
 
-import ToolBarComp from "../components/toolbar.js"
+import ToolBarComp from "../components/Toolbar.js"
 
 const ContentContainer = (props) => {
 

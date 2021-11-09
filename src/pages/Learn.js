@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 //My Files
 import styles from './styles/learn.module.css';
-import NavBar from "../components/navbar.js"
+import NavBar from "../components/Navbar.js"
 
 const Learn = ({ match, location }) => {
         
