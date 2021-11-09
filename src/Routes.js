@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import React from 'react'
 import App from "./App";
-import FlashCard from "./components/flashCard.js"
-import Message from "./components/Message.js"
-import Quiz from "./components/Quiz.js"
-import EAM from "./components/Eam.js"
-import About from "./components/about.js"
-import Faq from "./components/faq.js"
-import Learn from "./components/Learn.js"
+import FlashCard from "./pages/flashCard.js"
+import Message from "./pages/Message.js"
+import Quiz from "./pages/Quiz.js"
+import EAM from "./pages/Eam.js"
+import About from "./pages/about.js"
+import Faq from "./pages/faq.js"
+import Learn from "./pages/Learn.js"
 
-import FlashcardSet from "./components/flashcardSets.js"
+import FlashcardSet from "./pages/flashcardSets.js"
 import {Flasher} from "react-universal-flash";
 
 

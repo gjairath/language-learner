@@ -4,8 +4,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Routes from "./Routes";
 
-import './styles/index.css';
-import './styles/navbar.css'; 
+import './pages/styles/index.css';
+import './components/styles/navbar.css'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import NavBar from "./navbar.js"
+import NavBar from "../components/navbar.js"
 import ContentContainer from "./flashcardOverview.js"
 
 const FlashCard = ({ match, location }) => {

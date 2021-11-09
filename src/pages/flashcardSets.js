@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect } from "react";
 
-import NavBar from "./navbar.js";
-import OverviewContainer from "./Overview.js"
-import styles from './styles/overview.module.css'; 
+import NavBar from "../components/navbar.js";
+import OverviewContainer from "../components/Overview.js"
+import styles from '../components/styles/overview.module.css'; 
 import Dialog from 'react-bootstrap-dialog'
 
 

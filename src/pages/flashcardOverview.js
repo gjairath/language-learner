@@ -3,9 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import Dialog from 'react-bootstrap-dialog'
 
 import styled from 'styled-components'
-import './styles/flashcardOverview.css';
+import '../pages/styles/flashcardOverview.css';
 
-import ToolBarComp from "./toolbar.js"
+import ToolBarComp from "../components/toolbar.js"
 
 const ContentContainer = (props) => {
 

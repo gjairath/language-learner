@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import NavBar from "./navbar.js";
+import NavBar from "../components/navbar.js";
 import FaqContent from "./faqContent.js"
 
 
