@@ -9,6 +9,7 @@
     "bootstrap": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "firebase": "^9.4.1",
     "oxford-dictionaries-api": "^0.1.2",
     "oxford-dictionary": "^1.6.0",
     "react": "^17.0.2",
