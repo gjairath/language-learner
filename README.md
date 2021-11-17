@@ -6,5 +6,5 @@ https://language-learner-us.web.app
 
 ### `npm run dev` or firebase serve
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 
