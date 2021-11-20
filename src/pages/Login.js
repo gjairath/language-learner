@@ -1,7 +1,44 @@
-import "./styles/login.css"
+import React, { useContext, useState } from "react";
 
-export default function Login() {
-  return (
+import "./styles/login.css"
+import { Redirect } from "react-router-dom";
+
+import firebaseConfig from "../service/firebase_config.js";
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+
+const Login = () => {
+
+    const auth = getAuth();
+  const [currentUser, setCurrentUser] = useState(null);    
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = e.target.elements;
+    try {
+        signInWithEmailAndPassword(auth, email.value, password.value)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+          setCurrentUser(true);
+
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("HEY MOM");
+          });
+      } catch (error) {
+      alert(error);
+    }
+  };
+  
+    if (currentUser) {
+      return <Redirect to="/" />;
+  }
+
+    return (
     <>
 
       <div className="login_container">
@@ -23,7 +60,7 @@ export default function Login() {
               </a>
             </p>
           </div>
-          <form className=".form_container" action="#" method="POST">
+          <form className=".form_container" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="form_wrapper">
               <div>
@@ -93,3 +130,6 @@ export default function Login() {
     </>
   )
 }
+
+
+export default Login;

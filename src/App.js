@@ -1,12 +1,16 @@
 // App.js
 
-import React from "react";
+import React, {useContext } from "react";
 
 import NavBar from "./components/Navbar.js";
 import OverviewContainer from "./components/Overview.js"
 
+import { AuthContext } from "./components/auth";
 
 const App = (props) => {
+    const { currentUser } = useContext(AuthContext);
+    console.log(currentUser);
+    
     let num_decks = JSON.parse(localStorage.getItem(`totalSets`));
     let n_arr = []
     for (let i = 0; i < num_decks; i ++) {
