@@ -18,9 +18,7 @@ import {Flasher} from "react-universal-flash";
 
 
 const Routes = () => {
-  return (
-      <AuthProvider>
-    
+  return (    
       <Router>
          <Flasher position="bottom_center">
              <Message/>
@@ -38,7 +36,6 @@ const Routes = () => {
             <Route path="/faq" component={Faq} />
         </Switch>
         </Router>
-    </AuthProvider>
   );
 };
 

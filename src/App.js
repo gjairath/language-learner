@@ -8,7 +8,7 @@ import OverviewContainer from "./components/Overview.js"
 import { AuthContext } from "./components/auth";
 
 const App = (props) => {
-    const { currentUser } = useContext(AuthContext);
+    const  currentUser  = useContext(AuthContext);
     console.log(currentUser);
     
     let num_decks = JSON.parse(localStorage.getItem(`totalSets`));
