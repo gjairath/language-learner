@@ -3,9 +3,9 @@ import React from "react";
 import NavBar from "../components/Navbar.js"
 import ContentContainer from "./EamOverview.js"
 
-const EAM = ({ match, location }) => {
+const EAM = ({ computedMatch, location }) => {
         
-        const { params: { setID } } = match;
+        const { params: { setID } } = computedMatch;
 
   return (
         <div className="parent">

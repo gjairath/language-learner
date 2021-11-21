@@ -3,8 +3,8 @@ import React from "react";
 import NavBar from "../components/Navbar.js"
 import ContentContainer from "./quizOverview.js"
 
-const Quiz = ({ match, location }) => {
-      const { params: { setID } } = match;
+const Quiz = ({ computedMatch, location }) => {
+      const { params: { setID } } = computedMatch;
     
   return (
         <div className="parent">

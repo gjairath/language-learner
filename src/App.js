@@ -22,7 +22,6 @@ const App = (props) => {
     
     
  
-    console.log(ma);
     return (
         <div className="parent">
             <NavBar />        

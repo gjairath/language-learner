@@ -10,32 +10,43 @@ import Faq from "./pages/Faq.js"
 import Learn from "./pages/Learn.js"
 import Login from "./pages/Login.js"
 import SignUp from "./pages/Signup.js"
+import ProtectedRoute from "./components/protectedRoute.js"
+import notFound from "./components/NotFound.js"
+import {AuthProvider} from "./components/auth.js";
 
-import { AuthProvider } from "./components/auth";
+import * as ROUTES from "./constants/routes";
 
 import FlashcardSet from "./pages/flashcardSets.js"
 import {Flasher} from "react-universal-flash";
 
 
 const Routes = () => {
-  return (    
+  return (
+      <AuthProvider>
+
       <Router>
          <Flasher position="bottom_center">
              <Message/>
          </Flasher>
         <Switch>
-            <Route exact path={["/", "/home"]} component={App} />
-             <Route path="/flashcards/:setID" component={FlashCard}/>
-             <Route path="/login" component={Login}/>
-             <Route path="/signup" component={SignUp}/>
-            <Route path="/quiz/:setID" component={Quiz} />
-            <Route path="/learn/:setID" component={Learn} />
-            <Route path="/eams/:setID" component={EAM} />
-            <Route path="/fsets" component={FlashcardSet} />
-            <Route path="/about" component={About} />
-            <Route path="/faq" component={Faq} />
+             <Route path={ROUTES.LOGIN} component={Login}/>
+             <Route path={ROUTES.SIGN_UP} component={SignUp}/>
+
+
+            <ProtectedRoute exact path={ROUTES.HOME} component={App} />
+             <ProtectedRoute path={ROUTES.FLASH_CARD} component={FlashCard} />
+
+            <ProtectedRoute path={ROUTES.QUIZ} component={Quiz} />
+            <ProtectedRoute path={ROUTES.LEARN} component={Learn} />
+            <ProtectedRoute path={ROUTES.EAMS} component={EAM} />
+            <ProtectedRoute path={ROUTES.FSETS} component={FlashcardSet} />
+            <ProtectedRoute path={ROUTES.ABOUT} component={About} />
+            <ProtectedRoute path={ROUTES.FAQ} component={Faq} />
+            
+            <Route path={ROUTES.NOT_FOUND} component={notFound} />
         </Switch>
         </Router>
+        </AuthProvider>
   );
 };
 

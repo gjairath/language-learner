@@ -12,6 +12,7 @@ const Login = () => {
 
     const auth = getAuth();
   const [currentUser, setCurrentUser] = useState(null);    
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,8 +57,14 @@ const Login = () => {
             <p className="sign_footer">
               Or{' '}
               <a href="#" className="a_link">
-                Enter as a Guest
+                Enter as a Guest {' '} 
               </a>
+              
+                 Or{' '}
+              <a href="/signup" className="a_link">
+                Sign up
+              </a>
+              
             </p>
           </div>
           <form className=".form_container" onSubmit={handleSubmit}>
@@ -123,6 +130,7 @@ const Login = () => {
                 </span>
                 Sign in
               </button>
+
             </div>
           </form>
         </div>

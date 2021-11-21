@@ -7,9 +7,9 @@ import styled from 'styled-components'
 import styles from './styles/learn.module.css';
 import NavBar from "../components/Navbar.js"
 
-const Learn = ({ match, location }) => {
+const Learn = ({ computedMatch, location }) => {
         
-        const { params: { setID } } = match;
+        const { params: { setID } } = computedMatch;
 
   return (
         <div className="parent">
