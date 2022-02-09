@@ -1,0 +1,31 @@
+.form_sign{
+    display: flex;
+    flex-direction:column;
+    width: 50%;
+    padding-top: 100px;
+    padding-left: 250px;
+}
+
+.form_sign_label{
+    height: 35px;
+    border-radius: 5px;
+}
+
+.height{
+    height: 15px;
+}
+
+.form_sign_submit{
+    height: 40px;
+    width: 150px;
+    background-color: white;
+}
+
+.signup_p {
+    margin-top: 25px;
+    margin-left: 60%;
+}
+
+.signup_p > a{
+    text-decoration: none;
+}

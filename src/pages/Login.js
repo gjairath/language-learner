@@ -55,10 +55,6 @@ const Login = () => {
                 Sign in to your account
             </h2>
             <p className="sign_footer">
-              Or{' '}
-              <a href="#" className="a_link">
-                Enter as a Guest {' '} 
-              </a>
               
                  Or{' '}
               <a href="/signup" className="a_link">

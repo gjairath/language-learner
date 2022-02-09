@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import firebaseConfig from "../service/firebase_config";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import "./styles/signup.css"
 
 const SignUp = () => {
 
@@ -37,14 +38,20 @@ const SignUp = () => {
   }
   return (
     <>
+      <form className="form_sign" onSubmit={handleSubmit}>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label for="email">Email</label>
-        <input type="email" name="email" placeholder="Email" />
+        <label for="email">Email Address</label>
+        <input type="email" name="email" className="form_sign_label" placeholder="Email" />
+        <div className="height"> </div>
         <label for="password">Password</label>
-        <input type="password" name="password" placeholder="Password" />
-        <button type="submit">Submit</button>
+        <input type="password" name="password"className="form_sign_label" placeholder="Password" />
+        <div className="height"> </div>
+        <button type="submit" className="form_sign_submit">Submit</button>
+                <p className="signup_p">
+                    Already registered <a href="/login">login?</a>
+                </p>
       </form>
+
     </>
   );
 };

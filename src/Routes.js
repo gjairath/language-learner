@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import React from 'react'
 import App from "./App";
-import FlashCard from "./pages/Flashcard.js"
+import FlashCard from "./pages/flashcard.js"
 import Message from "./pages/Message.js"
 import Quiz from "./pages/Quiz.js"
 import EAM from "./pages/Eam.js"
 import About from "./pages/about.js"
-import Faq from "./pages/Faq.js"
+import Faq from "./pages/faq.js"
 import Learn from "./pages/Learn.js"
 import Login from "./pages/Login.js"
 import SignUp from "./pages/Signup.js"
